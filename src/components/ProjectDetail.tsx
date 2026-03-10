@@ -1,5 +1,4 @@
 import { useParams, Link } from 'react-router-dom';
-import { BackNavigation } from './BackNavigation';
 import { motion } from 'framer-motion';
 import {
   ExternalLink,
@@ -81,12 +80,11 @@ export function ProjectDetail() {
 
   if (!project) {
     return (
-      <div className="min-h-screen bg-deep-black flex items-center justify-center relative pt-48">
-        <BackNavigation />
+      <div className="min-h-screen bg-deep-black flex items-center justify-center relative pt-24">
         <div className="text-center">
           <h1 className="text-2xl font-bold text-white mb-4">Project not found</h1>
           <Link to="/" className="text-emerald-400 hover:underline">
-            ← Back to portfolio
+            Return to home
           </Link>
         </div>
       </div>
@@ -94,8 +92,7 @@ export function ProjectDetail() {
   }
 
   return (
-    <div className="min-h-screen bg-deep-black text-white relative pt-48">
-      <BackNavigation />
+    <div className="min-h-screen bg-deep-black text-white relative pt-24">
       {/* Hero */}
       <section className="relative min-h-[70vh] flex flex-col justify-end pb-16 overflow-hidden">
         <div className="absolute inset-0 bg-gradient-to-b from-slate-900/80 via-deep-black to-deep-black" />

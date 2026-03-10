@@ -11,7 +11,9 @@
   --maroon-muted: rgba(139, 21, 56, 0.2);
   --border: rgba(255, 255, 255, 0.2);
   --ink: #0f0f12;
+  --ink2: #0c0a09;
   --ink-light: #1a1a1f;
+  --faint: rgba(148, 163, 184, 0.7);
   --r-lg: 22px;
   --r-pill: 9999px;
   --sh-lg: 0 20px 40px -12px rgba(0, 0, 0, 0.4), 0 8px 16px -8px rgba(0, 0, 0, 0.3);
@@ -20,28 +22,6 @@
   --ease: cubic-bezier(0.25, 0.46, 0.45, 0.94);
   --ease-s: 0.55s;
   --beige-dk: #1c1917;
-  --maroon-glow: rgba(139, 21, 56, 0.5);
-}
-
-/* Ghost nav - underline expand from center */
-.ghost-nav-link {
-  position: relative;
-}
-
-.ghost-nav-link::after {
-  content: '';
-  position: absolute;
-  bottom: -2px;
-  left: 50%;
-  width: 0;
-  height: 1px;
-  background: var(--maroon-glow);
-  transition: width var(--ease-s) var(--ease), left var(--ease-s) var(--ease);
-}
-
-.ghost-nav-link:hover::after {
-  width: 100%;
-  left: 0;
 }
 
 /* App Mockup - product shot with depth */

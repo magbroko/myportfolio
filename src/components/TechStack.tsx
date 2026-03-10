@@ -71,7 +71,7 @@ export function TechStack() {
       </div>
 
       {/* Staggered grid for larger screens - visible on md+ */}
-      <div className="relative mt-20 hidden md:block">
+      {/* <div className="relative mt-20 hidden md:block">
         <div className="max-w-4xl mx-auto px-6">
           <motion.div
             className="grid grid-cols-2 lg:grid-cols-5 gap-4"
@@ -112,7 +112,7 @@ export function TechStack() {
             ))}
           </motion.div>
         </div>
-      </div>
+      </div> */}
     </section>
   );
 }

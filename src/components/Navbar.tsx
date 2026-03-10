@@ -14,58 +14,46 @@ export function Navbar() {
   const [isOpen, setIsOpen] = useState(false);
 
   return (
-    <header className="fixed top-0 left-0 right-0 z-[60] flex justify-center pt-6 px-4 sm:px-6 pointer-events-none">
-      <nav className="pointer-events-auto w-full max-w-4xl">
-        {/* Floating dock */}
+    <header className="fixed top-0 left-0 w-full z-50 pointer-events-none">
+      <nav className="mx-auto mt-4 max-w-7xl px-4 sm:px-6 pointer-events-auto">
+        {/* Global Navigation - Tier 1 */}
         <motion.div
           initial={{ opacity: 0, y: -20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.5, ease: [0.25, 0.46, 0.45, 0.94] }}
-          className="flex items-center justify-between gap-4 px-6 py-4 rounded-2xl bg-slate-900/40 backdrop-blur-md border border-white/10 shadow-2xl shadow-black/20"
+          className="flex items-center justify-between gap-4 px-6 py-3 rounded-2xl bg-[var(--ink2)]/80 backdrop-blur-xl border border-white/10 shadow-[0_4px_24px_rgba(0,0,0,0.25)]"
         >
-          {/* Logo - Gradient brand mark */}
+          {/* Logo */}
           <Link
             to="/"
-            className="text-xl font-extrabold tracking-tighter select-none"
-            style={{
-              background: 'linear-gradient(135deg, #10b981 0%, #0ea5e9 50%, #8b5cf6 100%)',
-              WebkitBackgroundClip: 'text',
-              WebkitTextFillColor: 'transparent',
-              backgroundClip: 'text',
-            }}
+            className="text-2xl font-bold text-sky-400 select-none"
           >
             MO
           </Link>
 
           {/* Desktop nav */}
-          <ul className="hidden md:flex items-center gap-1">
+          <ul className="hidden md:flex items-center gap-8">
             {navLinks.map((link) => (
               <li key={link.href}>
-                <Link to={link.href}>
-                  <motion.span
-                    className="block px-4 py-2 text-sm font-medium text-slate-400 hover:text-white transition-colors rounded-lg"
-                    whileHover={{ scale: 1.05 }}
-                    whileTap={{ scale: 0.98 }}
-                  >
-                    {link.label}
-                  </motion.span>
+                <Link
+                  to={link.href}
+                  className="text-sm font-medium text-[var(--faint)] hover:text-white transition-colors"
+                >
+                  {link.label}
                 </Link>
               </li>
             ))}
           </ul>
 
-          {/* CTA + Mobile menu button */}
+          {/* CTA + Mobile menu */}
           <div className="flex items-center gap-3">
-            <motion.div whileHover={{ scale: 1.03 }} whileTap={{ scale: 0.98 }}>
-              <Link
-                to="/#contact"
-                className="hidden sm:flex items-center gap-2 px-5 py-2.5 rounded-xl font-semibold text-sm text-white bg-gradient-to-r from-emerald-500 to-emerald-600 hover:from-emerald-400 hover:to-emerald-500 shadow-[0_0_20px_rgba(16,185,129,0.3)] hover:shadow-[0_0_30px_rgba(16,185,129,0.5)] transition-all duration-300"
-              >
-                <FileDown className="w-4 h-4" />
-                Hire Me
-              </Link>
-            </motion.div>
-
+            <Link
+              to="/#contact"
+              className="hidden sm:flex items-center gap-2 px-5 py-2 rounded-xl text-sm font-bold text-white bg-emerald-500 hover:bg-emerald-600 transition-all shadow-[0_2px_12px_rgba(16,185,129,0.3)]"
+            >
+              <FileDown className="w-4 h-4" />
+              Hire Me
+            </Link>
             <button
               onClick={() => setIsOpen(!isOpen)}
               className="md:hidden p-2 text-slate-400 hover:text-white transition-colors rounded-lg"
