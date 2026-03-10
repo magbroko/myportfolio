@@ -81,7 +81,7 @@ export function ProjectDetail() {
 
   if (!project) {
     return (
-      <div className="min-h-screen bg-deep-black flex items-center justify-center relative pt-44">
+      <div className="min-h-screen bg-deep-black flex items-center justify-center relative pt-48">
         <BackNavigation />
         <div className="text-center">
           <h1 className="text-2xl font-bold text-white mb-4">Project not found</h1>
@@ -94,7 +94,7 @@ export function ProjectDetail() {
   }
 
   return (
-    <div className="min-h-screen bg-deep-black text-white relative pt-44">
+    <div className="min-h-screen bg-deep-black text-white relative pt-48">
       <BackNavigation />
       {/* Hero */}
       <section className="relative min-h-[70vh] flex flex-col justify-end pb-16 overflow-hidden">
