@@ -21,7 +21,7 @@ export function ContactCard({
   const [mousePosition, setMousePosition] = useState<{ x: number; y: number } | null>(null);
   const cardRef = useRef<HTMLDivElement>(null);
 
-  const handleMouseMove = useCallback((e: React.MouseEvent<HTMLDivElement>) => {
+  const handleMouseMove = useCallback((e: React.MouseEvent<HTMLElement>) => {
     const card = cardRef.current;
     if (!card) return;
 
@@ -77,7 +77,7 @@ export function ContactCard({
         target={target}
         rel={rel}
         className={wrapperClassName}
-        onMouseMove={handleMouseMove as React.MouseEventHandler<HTMLAnchorElement>}
+        onMouseMove={handleMouseMove}
         onMouseLeave={handleMouseLeave}
       >
         <div ref={cardRef} className="absolute inset-0 pointer-events-none" aria-hidden />

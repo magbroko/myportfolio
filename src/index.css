@@ -7,13 +7,54 @@
   --maroon: #8b1538;
   --maroon-light: #a91d47;
   --maroon-lt: #b84d6a;
+  --maroon-pale: rgba(139, 21, 56, 0.15);
   --maroon-muted: rgba(139, 21, 56, 0.2);
+  --border: rgba(255, 255, 255, 0.2);
   --ink: #0f0f12;
   --ink-light: #1a1a1f;
   --r-lg: 22px;
   --r-pill: 9999px;
   --sh-lg: 0 20px 40px -12px rgba(0, 0, 0, 0.4), 0 8px 16px -8px rgba(0, 0, 0, 0.3);
+  --sh-xl: 0 32px 80px rgba(0, 0, 0, 0.16);
+  --muted: rgba(148, 163, 184, 0.9);
   --ease: cubic-bezier(0.25, 0.46, 0.45, 0.94);
+  --ease-s: 0.55s;
+  --beige-dk: #1c1917;
+  --maroon-glow: rgba(139, 21, 56, 0.5);
+}
+
+/* Ghost nav - underline expand from center */
+.ghost-nav-link {
+  position: relative;
+}
+
+.ghost-nav-link::after {
+  content: '';
+  position: absolute;
+  bottom: -2px;
+  left: 50%;
+  width: 0;
+  height: 1px;
+  background: var(--maroon-glow);
+  transition: width var(--ease-s) var(--ease), left var(--ease-s) var(--ease);
+}
+
+.ghost-nav-link:hover::after {
+  width: 100%;
+  left: 0;
+}
+
+/* App Mockup - product shot with depth */
+.app-mockup {
+  border-radius: var(--r-lg);
+  box-shadow: var(--sh-xl);
+  transition: transform 0.4s var(--ease), box-shadow 0.4s var(--ease), backdrop-filter 0.4s var(--ease);
+  transform: perspective(1000px) rotateX(5deg) rotateY(-5deg);
+}
+
+.app-mockup:hover {
+  transform: perspective(1000px) rotateX(5deg) rotateY(-5deg) scale(1.02);
+  box-shadow: 0 40px 100px rgba(0, 0, 0, 0.2);
 }
 
 @layer base {

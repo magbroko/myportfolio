@@ -28,8 +28,7 @@ export function FeaturedProjectCard({ project, index }: FeaturedProjectCardProps
         delay: index * 0.1,
         ease: [0.25, 0.46, 0.45, 0.94],
       }}
-      whileHover={{ scale: 1.025 }}
-      transition={{ duration: 0.3, ease: [0.25, 0.46, 0.45, 0.94] }}
+      whileHover={{ scale: 1.025, transition: { duration: 0.3 } }}
       className="group"
     >
       <div

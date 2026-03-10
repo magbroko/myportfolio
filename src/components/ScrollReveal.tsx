@@ -52,13 +52,16 @@ export function ScrollReveal({
   variants = defaultVariants,
   enableWillChange = true,
 }: ScrollRevealProps) {
-  const resolvedVariants = {
-    ...defaultVariants,
-    ...variants,
+  const transition = { ...SPRING_TRANSITION, delay };
+  const resolvedVariants: Variants = {
+    hidden: { opacity: 0, y: 40, ...variants.hidden },
     visible: {
-      ...defaultVariants.visible,
-      ...variants.visible,
-      transition: variants.visible?.transition ?? SPRING_TRANSITION,
+      opacity: 1,
+      y: 0,
+      transition,
+      ...(typeof variants.visible === 'object' && variants.visible !== null
+        ? { ...variants.visible, transition }
+        : {}),
     },
   };
 

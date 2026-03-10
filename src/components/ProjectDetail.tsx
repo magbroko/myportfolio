@@ -1,4 +1,5 @@
 import { useParams, Link } from 'react-router-dom';
+import { BackNavigation } from './BackNavigation';
 import { motion } from 'framer-motion';
 import {
   ExternalLink,
@@ -80,7 +81,8 @@ export function ProjectDetail() {
 
   if (!project) {
     return (
-      <div className="min-h-screen bg-deep-black flex items-center justify-center">
+      <div className="min-h-screen bg-deep-black flex items-center justify-center relative pt-44">
+        <BackNavigation />
         <div className="text-center">
           <h1 className="text-2xl font-bold text-white mb-4">Project not found</h1>
           <Link to="/" className="text-emerald-400 hover:underline">
@@ -92,7 +94,8 @@ export function ProjectDetail() {
   }
 
   return (
-    <div className="min-h-screen bg-deep-black text-white">
+    <div className="min-h-screen bg-deep-black text-white relative pt-44">
+      <BackNavigation />
       {/* Hero */}
       <section className="relative min-h-[70vh] flex flex-col justify-end pb-16 overflow-hidden">
         <div className="absolute inset-0 bg-gradient-to-b from-slate-900/80 via-deep-black to-deep-black" />
@@ -104,9 +107,25 @@ export function ProjectDetail() {
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.6 }}
-            className="aspect-video rounded-2xl overflow-hidden bg-slate-800/50 border border-white/10 mb-12"
+            className="relative aspect-video rounded-2xl overflow-hidden border border-white/10 mb-12"
+            style={{ boxShadow: 'var(--sh-xl)' }}
           >
-            {project.image ? (
+            {project.id === 'medicare' ? (
+              <>
+                <div
+                  className="absolute inset-0 bg-cover bg-center"
+                  style={{ backgroundImage: 'url(/medicare_hero_image.png)' }}
+                  aria-hidden
+                />
+                <div
+                  className="absolute inset-0"
+                  style={{
+                    background: 'linear-gradient(to top, rgba(15, 15, 18, 0.6), transparent)',
+                  }}
+                  aria-hidden
+                />
+              </>
+            ) : project.image ? (
               <img
                 src={project.image}
                 alt={project.title}
@@ -169,15 +188,36 @@ export function ProjectDetail() {
             </div>
           </div>
         </div>
-
-        <Link
-          to="/"
-          className="absolute top-28 left-6 sm:left-8 flex items-center gap-2 text-slate-400 hover:text-white transition-colors z-20"
-        >
-          <ArrowLeft className="w-4 h-4" />
-          <span className="text-sm font-medium">Back to portfolio</span>
-        </Link>
       </section>
+
+      {/* Dashboard Architecture Overview (MediCare) */}
+      {project.id === 'medicare' && (
+        <section className="py-16">
+          <div className="max-w-[1024px] mx-auto px-6 sm:px-8 lg:px-12">
+            <motion.div
+              initial={{ opacity: 0, y: 40 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true, amount: 0.2 }}
+              transition={{ duration: 0.6, delay: 0.2, ease: [0.25, 0.46, 0.45, 0.94] }}
+              className="space-y-6"
+            >
+              <h2 className="font-display font-bold text-2xl sm:text-3xl text-white">
+                Administrative & Clinical Insights Dashboard
+              </h2>
+              <div className="app-mockup overflow-hidden rounded-[var(--r-lg)] bg-white/5 backdrop-blur-sm hover:backdrop-blur-md">
+                <img
+                  src="/medicare-dashboard.png"
+                  alt="MediCare Dashboard — Vitals & Overview, Medical History, Appointment Scheduling"
+                  className="w-full h-auto object-cover"
+                />
+              </div>
+              <p className="text-[var(--muted)] text-sm sm:text-base leading-relaxed max-w-3xl">
+                Featuring real-time vitals monitoring (Heart Rate, BP), upcoming appointment scheduling, and role-based access control for patient Robert Johnson. The system is optimized for low-bandwidth internet in Lagos and Abuja, enabling asynchronous E-Prescription sharing.
+              </p>
+            </motion.div>
+          </div>
+        </section>
+      )}
 
       {/* Narrative sections */}
       <div className="relative max-w-4xl mx-auto px-6 sm:px-8 lg:px-12 py-24 space-y-24">
