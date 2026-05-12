@@ -1,92 +1,176 @@
 import { useState } from 'react';
+import { motion, AnimatePresence } from 'framer-motion';
 import { FadeInView } from './FadeInView';
-import { ProjectCard } from './ProjectCard';
-import { FeaturedProjectCard } from './FeaturedProjectCard';
-import { projects } from '@/data/portfolio';
+import ProjectCard from './ProjectCard';
+import { projects, type Project } from '../data/portfolio';
 
-type FilterKey = 'all' | 'residential' | 'commercial' | 'industrial';
+type FilterKey = 'All' | 'Featured' | 'EdTech' | 'HealthTech' | 'Creative' | 'E-Commerce';
 
-const FILTERS: { key: FilterKey; label: string }[] = [
-  { key: 'all', label: 'All Projects' },
-  { key: 'residential', label: 'Residential' },
-  { key: 'commercial', label: 'Commercial' },
-  { key: 'industrial', label: 'Industrial' },
-];
+const filters: FilterKey[] = ['All', 'Featured', 'EdTech', 'HealthTech', 'Creative', 'E-Commerce'];
 
-export function Projects() {
-  const [activeFilter, setActiveFilter] = useState<FilterKey>('all');
+function matchFilter(project: Project, filter: FilterKey): boolean {
+  if (filter === 'All') return true;
+  if (filter === 'Featured') return project.featured;
+  if (filter === 'EdTech') return project.category.toLowerCase().includes('edtech');
+  if (filter === 'HealthTech') return project.category.toLowerCase().includes('healthtech');
+  if (filter === 'Creative') return project.category.toLowerCase().includes('creative');
+  if (filter === 'E-Commerce') return project.category.toLowerCase().includes('e-commerce');
+  return true;
+}
 
-  const filteredProjects = activeFilter === 'all'
-    ? projects
-    : projects.filter((p) => p.category === activeFilter);
+export default function Projects() {
+  const [activeFilter, setActiveFilter] = useState<FilterKey>('All');
 
-  const nelshop = projects.find((p) => p.id === 'nelshop');
-  const showBento = activeFilter === 'all' && nelshop;
+  const filtered = projects.filter(p => matchFilter(p, activeFilter));
+  const featured = filtered.filter(p => p.featured);
+  const standard = filtered.filter(p => !p.featured);
 
   return (
-    <section id="projects" className="relative py-24 sm:py-32 lg:py-40 bg-deep-black">
-      <div className="absolute inset-0 bg-gradient-to-b from-transparent via-slate-900/30 to-slate-950" />
-
-      <div className="relative max-w-7xl mx-auto px-6 sm:px-8 lg:px-12">
-        <FadeInView direction="up" delay={0}>
-          <h2 className="text-3xl sm:text-4xl md:text-5xl font-bold tracking-tight text-white mb-4">
+    <section
+      id="projects"
+      style={{
+        backgroundColor: 'var(--bg-secondary)',
+        padding: '8rem 2rem',
+      }}
+    >
+      <div style={{ maxWidth: '1280px', margin: '0 auto' }}>
+        {/* Header */}
+        <FadeInView>
+          <span className="section-number">02 — SELECTED WORK</span>
+          <h2
+            style={{
+              fontFamily: 'Cormorant Garamond, serif',
+              fontSize: 'clamp(2.5rem, 5vw, 4rem)',
+              fontWeight: 300,
+              color: 'var(--platinum)',
+              marginBottom: '3rem',
+              lineHeight: 1.1,
+            }}
+          >
             Projects
           </h2>
-          <p className="text-slate-400 text-lg max-w-2xl mb-8">
-            A curated selection of work spanning from vanilla foundations to modern React architectures.
-          </p>
+        </FadeInView>
 
-          {/* Filter pills */}
-          <div className="flex flex-wrap gap-3 mb-12">
-            {FILTERS.map(({ key, label }) => (
+        {/* Filter tabs */}
+        <FadeInView delay={0.1}>
+          <div
+            role="tablist"
+            aria-label="Filter projects"
+            style={{
+              display: 'flex',
+              flexWrap: 'wrap',
+              gap: '0.6rem',
+              marginBottom: '4rem',
+            }}
+          >
+            {filters.map(f => (
               <button
-                key={key}
-                type="button"
-                onClick={() => setActiveFilter(key)}
-                className={`
-                  px-5 py-2.5 text-sm font-medium rounded-[var(--r-pill)] transition-all duration-300
-                  [transition-timing-function:var(--ease)]
-                  ${activeFilter === key
-                    ? 'bg-[var(--maroon)] text-white border border-[var(--maroon)]'
-                    : 'bg-transparent text-white border border-white/30 hover:border-white/50'
+                key={f}
+                role="tab"
+                aria-selected={activeFilter === f}
+                onClick={() => setActiveFilter(f)}
+                style={{
+                  fontFamily: 'JetBrains Mono, monospace',
+                  fontSize: '0.7rem',
+                  letterSpacing: '0.08em',
+                  padding: '0.45rem 1rem',
+                  borderRadius: '2px',
+                  border: activeFilter === f ? 'none' : '1px solid rgba(232,234,240,0.15)',
+                  background: activeFilter === f ? 'var(--gold)' : 'transparent',
+                  color: activeFilter === f ? 'var(--bg-primary)' : 'var(--platinum)',
+                  cursor: 'none',
+                  transition: 'all 0.2s ease',
+                  fontWeight: activeFilter === f ? 500 : 400,
+                }}
+                onMouseEnter={e => {
+                  if (activeFilter !== f) {
+                    (e.currentTarget as HTMLElement).style.borderColor = 'var(--gold)';
+                    (e.currentTarget as HTMLElement).style.color = 'var(--gold)';
                   }
-                `}
+                }}
+                onMouseLeave={e => {
+                  if (activeFilter !== f) {
+                    (e.currentTarget as HTMLElement).style.borderColor = 'rgba(232,234,240,0.15)';
+                    (e.currentTarget as HTMLElement).style.color = 'var(--platinum)';
+                  }
+                }}
               >
-                {label}
+                {f}
               </button>
             ))}
           </div>
         </FadeInView>
 
-        {showBento ? (
-          <div className="bento-grid">
-            <div style={{ gridArea: 'feat' }}>
-              <FeaturedProjectCard project={nelshop} index={0} />
-            </div>
-            <div style={{ gridArea: 'side1' }}>
-              <ProjectCard project={projects.find((p) => p.id === 'solarsol')!} index={1} />
-            </div>
-            <div style={{ gridArea: 'side2' }}>
-              <ProjectCard project={projects.find((p) => p.id === 'thegracebaker')!} index={2} />
-            </div>
-            <div style={{ gridArea: 'low1' }}>
-              <ProjectCard project={projects.find((p) => p.id === 'medicare')!} index={3} />
-            </div>
-            <div style={{ gridArea: 'low2' }}>
-              <ProjectCard project={projects.find((p) => p.id === 'kabashimagery')!} index={4} />
-            </div>
-          </div>
-        ) : (
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-6 lg:gap-8">
-            {filteredProjects.map((project, index) =>
-              project.overlay && project.useBrandStyling ? (
-                <FeaturedProjectCard key={project.id} project={project} index={index} />
-              ) : (
-                <ProjectCard key={project.id} project={project} index={index} />
-              )
+        {/* Grid with AnimatePresence for smooth filter transitions */}
+        <AnimatePresence mode="wait">
+          <motion.div
+            key={activeFilter}
+            initial={{ opacity: 0, y: 10 }}
+            animate={{ opacity: 1, y: 0 }}
+            exit={{ opacity: 0, y: -10 }}
+            transition={{ duration: 0.3, ease: [0.25, 0.46, 0.45, 0.94] }}
+          >
+            {/* Featured projects */}
+            {featured.length > 0 && (
+              <div style={{ marginBottom: standard.length > 0 ? '3rem' : 0 }}>
+                {/* First featured — full width on mobile, spans on desktop */}
+                {featured.length >= 1 && (
+                  <div style={{ marginBottom: '1.5rem' }}>
+                    <ProjectCard project={featured[0]} index={projects.indexOf(featured[0])} featured />
+                  </div>
+                )}
+                {/* Remaining featured in 2-col grid */}
+                {featured.length > 1 && (
+                  <div
+                    style={{
+                      display: 'grid',
+                      gridTemplateColumns: 'repeat(auto-fit, minmax(280px, 1fr))',
+                      gap: '1.5rem',
+                    }}
+                  >
+                    {featured.slice(1).map((p) => (
+                      <ProjectCard key={p.id} project={p} index={projects.indexOf(p)} featured />
+                    ))}
+                  </div>
+                )}
+              </div>
             )}
-          </div>
-        )}
+
+            {/* Standard projects in 3-col grid */}
+            {standard.length > 0 && (
+              <div
+                style={{
+                  display: 'grid',
+                  gridTemplateColumns: 'repeat(auto-fill, minmax(280px, 1fr))',
+                  gap: '1.5rem',
+                }}
+              >
+                {standard.map((p) => (
+                  <ProjectCard key={p.id} project={p} index={projects.indexOf(p)} />
+                ))}
+              </div>
+            )}
+
+            {filtered.length === 0 && (
+              <div
+                style={{
+                  textAlign: 'center',
+                  padding: '5rem 0',
+                  fontFamily: 'JetBrains Mono, monospace',
+                  fontSize: '0.8rem',
+                  color: 'var(--text-secondary)',
+                  letterSpacing: '0.1em',
+                }}
+              >
+                No projects in this category yet.
+              </div>
+            )}
+          </motion.div>
+        </AnimatePresence>
+      </div>
+
+      <div style={{ maxWidth: '1280px', margin: '0 auto' }}>
+        <div className="gold-divider" style={{ marginTop: '6rem', marginBottom: 0 }} />
       </div>
     </section>
   );

@@ -1,89 +1,196 @@
-import { Link } from 'react-router-dom';
+import { memo } from 'react';
+import { useNavigate } from 'react-router-dom';
 import { motion } from 'framer-motion';
-import { ExternalLink } from 'lucide-react';
-import { cn } from '@/lib/utils';
-import type { Project } from '@/data/portfolio';
+import { Github, ExternalLink } from 'lucide-react';
+import type { Project } from '../data/portfolio';
 
 interface ProjectCardProps {
   project: Project;
   index: number;
+  featured?: boolean;
 }
 
-export function ProjectCard({ project, index }: ProjectCardProps) {
-  const cardContent = (
-    <>
-      <div className="flex items-center justify-between gap-4 mb-4 min-w-0">
-        <motion.h3
-          layoutId={`project-title-${project.id}`}
-          className="text-xl sm:text-2xl font-bold text-white group-hover:text-emerald-400 transition-colors truncate"
+const ProjectCard = memo(function ProjectCard({ project, index, featured = false }: ProjectCardProps) {
+  const navigate = useNavigate();
+
+  const num = String(index + 1).padStart(2, '0');
+
+  return (
+    <motion.article
+      whileHover={{ scale: 1.015, y: -4 }}
+      transition={{ duration: 0.25, ease: [0.25, 0.46, 0.45, 0.94] }}
+      onClick={() => navigate(`/project/${project.id}`)}
+      style={{
+        position: 'relative',
+        backgroundColor: 'var(--bg-card)',
+        border: '1px solid rgba(201,168,76,0.08)',
+        padding: featured ? '2.5rem' : '2rem',
+        cursor: 'none',
+        overflow: 'hidden',
+        transition: 'border-color 0.25s ease, box-shadow 0.25s ease',
+      }}
+      onMouseEnter={e => {
+        (e.currentTarget as HTMLElement).style.borderColor = 'rgba(201,168,76,0.3)';
+        (e.currentTarget as HTMLElement).style.boxShadow = '0 0 40px rgba(201,168,76,0.07)';
+      }}
+      onMouseLeave={e => {
+        (e.currentTarget as HTMLElement).style.borderColor = 'rgba(201,168,76,0.08)';
+        (e.currentTarget as HTMLElement).style.boxShadow = 'none';
+      }}
+    >
+      {/* Decorative number */}
+      <span
+        aria-hidden="true"
+        style={{
+          position: 'absolute',
+          top: '1rem',
+          right: '1.5rem',
+          fontFamily: 'Cormorant Garamond, serif',
+          fontSize: '5rem',
+          fontWeight: 300,
+          color: 'var(--platinum)',
+          opacity: 0.06,
+          lineHeight: 1,
+          userSelect: 'none',
+          pointerEvents: 'none',
+        }}
+      >
+        {num}
+      </span>
+
+      {/* Top row: category + year */}
+      <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '1.5rem' }}>
+        <span
+          style={{
+            fontFamily: 'JetBrains Mono, monospace',
+            fontSize: '0.65rem',
+            color: 'var(--gold)',
+            letterSpacing: '0.15em',
+            textTransform: 'uppercase',
+          }}
         >
-          {project.title}
-        </motion.h3>
-        <div className="flex items-center justify-end gap-3 flex-shrink-0">
-          {project.isHighlighted && project.highlightLabel && (
-            <span className="px-3 py-1 text-xs font-semibold uppercase tracking-wider rounded-[var(--r-pill)] bg-emerald-500/20 text-emerald-400 border border-emerald-500/30 flex-shrink-0 mr-3">
-              {project.highlightLabel}
-            </span>
-          )}
-          {project.isComingSoon && (
-            <span className="px-3 py-1 text-xs font-semibold uppercase tracking-wider rounded-[var(--r-pill)] bg-slate-600/50 text-slate-400 border border-slate-500/50 flex-shrink-0 mr-3">
-              Coming soon
-            </span>
-          )}
-          {!project.isComingSoon && (
-            <ExternalLink className="w-5 h-5 text-slate-500 group-hover:text-emerald-400 flex-shrink-0 transition-colors" />
-          )}
-        </div>
+          {project.category}
+        </span>
+        <span
+          style={{
+            fontFamily: 'JetBrains Mono, monospace',
+            fontSize: '0.65rem',
+            color: 'var(--text-secondary)',
+            letterSpacing: '0.1em',
+          }}
+        >
+          {project.year}
+        </span>
       </div>
 
-      <p className="text-slate-400 text-sm sm:text-base leading-relaxed mb-6">
-        {project.description}
+      {/* Title */}
+      <h3
+        style={{
+          fontFamily: 'Cormorant Garamond, serif',
+          fontSize: featured ? '1.8rem' : '1.4rem',
+          fontWeight: 400,
+          color: 'var(--platinum)',
+          lineHeight: 1.2,
+          marginBottom: '0.5rem',
+          letterSpacing: '-0.01em',
+        }}
+      >
+        {project.title}
+      </h3>
+
+      {/* Subtitle */}
+      <p
+        style={{
+          fontFamily: 'DM Sans, sans-serif',
+          fontWeight: 300,
+          fontSize: '0.85rem',
+          color: 'var(--text-secondary)',
+          marginBottom: '1.5rem',
+          lineHeight: 1.5,
+        }}
+      >
+        {project.subtitle}
       </p>
 
-      <div className="flex flex-wrap gap-2">
-        {project.techStack.map((tech) => (
+      {/* Tech chips */}
+      <div style={{ display: 'flex', flexWrap: 'wrap', gap: '0.4rem', marginBottom: '2rem' }}>
+        {project.tech.map((t) => (
           <span
-            key={tech}
-            className="px-3 py-1.5 text-xs font-medium rounded-lg bg-[var(--maroon-muted)] text-[var(--maroon-lt)] border border-[var(--maroon)]/40"
+            key={t}
+            style={{
+              fontFamily: 'JetBrains Mono, monospace',
+              fontSize: '0.65rem',
+              color: 'var(--gold)',
+              background: 'rgba(201,168,76,0.08)',
+              border: '1px solid rgba(201,168,76,0.2)',
+              padding: '0.25rem 0.6rem',
+              borderRadius: '2px',
+              letterSpacing: '0.05em',
+            }}
           >
-            {tech}
+            {t}
           </span>
         ))}
       </div>
 
-      {/* Hover glow effect */}
-      <div className="absolute inset-0 rounded-2xl bg-gradient-to-br from-emerald-500/0 to-sky-500/0 group-hover:from-emerald-500/5 group-hover:to-sky-500/5 transition-all duration-300 pointer-events-none" />
-    </>
-  );
+      {/* Bottom row: links + view details */}
+      <div
+        style={{
+          display: 'flex',
+          alignItems: 'center',
+          justifyContent: 'space-between',
+          borderTop: '1px solid rgba(201,168,76,0.08)',
+          paddingTop: '1.25rem',
+        }}
+      >
+        <div style={{ display: 'flex', gap: '1rem' }}>
+          <a
+            href={project.githubUrl}
+            aria-label={`GitHub repository for ${project.title}`}
+            onClick={e => e.stopPropagation()}
+            style={{ color: 'var(--text-secondary)', transition: 'color 0.2s ease', cursor: 'none' }}
+            onMouseEnter={e => (e.currentTarget.style.color = 'var(--gold)')}
+            onMouseLeave={e => (e.currentTarget.style.color = 'var(--text-secondary)')}
+          >
+            <Github size={15} />
+          </a>
+          <a
+            href={project.liveUrl}
+            aria-label={`Live demo for ${project.title}`}
+            onClick={e => e.stopPropagation()}
+            style={{ color: 'var(--text-secondary)', transition: 'color 0.2s ease', cursor: 'none' }}
+            onMouseEnter={e => (e.currentTarget.style.color = 'var(--gold)')}
+            onMouseLeave={e => (e.currentTarget.style.color = 'var(--text-secondary)')}
+          >
+            <ExternalLink size={15} />
+          </a>
+        </div>
 
-  const cardClassName = cn(
-    'block relative overflow-hidden rounded-[var(--r-lg)] p-6',
-    'bg-slate-800/30 backdrop-blur-xl border border-slate-700/50',
-    'transition-all duration-300',
-    '[transition-timing-function:var(--ease)]',
-    !project.isComingSoon && 'hover:border-emerald-500/30 hover:bg-slate-800/50 hover:shadow-[var(--sh-lg)]'
-  );
-
-  return (
-    <motion.article
-      initial={{ opacity: 0, y: 40 }}
-      whileInView={{ opacity: 1, y: 0 }}
-      viewport={{ once: true, amount: 0.2 }}
-      transition={{
-        duration: 0.6,
-        delay: index * 0.1,
-        ease: [0.25, 0.46, 0.45, 0.94],
-      }}
-      whileHover={!project.isComingSoon ? { scale: 1.025 } : undefined}
-      className="group"
-    >
-      {project.isComingSoon ? (
-        <div className={cardClassName}>{cardContent}</div>
-      ) : (
-        <Link to={`/project/${project.id}`} className={cardClassName}>
-          {cardContent}
-        </Link>
-      )}
+        <button
+          onClick={e => { e.stopPropagation(); navigate(`/project/${project.id}`); }}
+          style={{
+            background: 'none',
+            border: 'none',
+            fontFamily: 'DM Sans, sans-serif',
+            fontWeight: 400,
+            fontSize: '0.78rem',
+            color: 'var(--gold)',
+            cursor: 'none',
+            letterSpacing: '0.05em',
+            display: 'flex',
+            alignItems: 'center',
+            gap: '0.35rem',
+            padding: 0,
+            transition: 'opacity 0.2s ease',
+          }}
+          onMouseEnter={e => (e.currentTarget.style.opacity = '0.7')}
+          onMouseLeave={e => (e.currentTarget.style.opacity = '1')}
+        >
+          View Details →
+        </button>
+      </div>
     </motion.article>
   );
-}
+});
+
+export default ProjectCard;

@@ -1,9 +1,9 @@
 import { Outlet } from 'react-router-dom';
-import { Navbar } from './Navbar';
+import Navbar from './Navbar';
 
 export function Layout() {
   return (
-    <div className="min-h-screen bg-deep-black text-white font-sans antialiased">
+    <div style={{ minHeight: '100vh', backgroundColor: 'var(--bg-primary)', color: 'var(--text-primary)' }}>
       <Navbar />
       <Outlet />
     </div>

@@ -4,14 +4,19 @@
     <meta charset="UTF-8" />
     <link rel="icon" type="image/svg+xml" href="/icon.png" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <meta name="description" content="Marvelous Oghenetejiri Agbroko - Bridging Vanilla foundations with Modern React Architectures" />
-    <title>Marvelous Oghenetejiri Agbroko | Frontend Architect</title>
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Syne:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <meta name="description" content="Marvelous Oghenetejiri Agbroko — Frontend Developer crafting interfaces that feel inevitable." />
+    <title>Marvelous Agbroko | Frontend Developer</title>
   </head>
   <body>
     <div id="root"></div>
     <script type="module" src="/src/main.tsx"></script>
+    <script>
+      document.addEventListener('mousemove', (e) => {
+        const c = document.getElementById('cursor');
+        const r = document.getElementById('cursor-ring');
+        if (c) { c.style.left = e.clientX + 'px'; c.style.top = e.clientY + 'px'; }
+        if (r) { setTimeout(() => { r.style.left = e.clientX + 'px'; r.style.top = e.clientY + 'px'; }, 80); }
+      });
+    </script>
   </body>
 </html>

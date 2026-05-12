@@ -1,115 +1,189 @@
-import { useState } from 'react';
-import { Link } from 'react-router-dom';
+import { useState, useEffect } from 'react';
+import { Link, useNavigate, useLocation } from 'react-router-dom';
 import { motion, AnimatePresence } from 'framer-motion';
-import { Menu, X, FileDown } from 'lucide-react';
+import { X, Menu } from 'lucide-react';
 
 const navLinks = [
-  { href: '/#about', label: 'About' },
-  { href: '/#projects', label: 'Projects' },
-  { href: '/#tech', label: 'Tech Stack' },
-  { href: '/#contact', label: 'Contact' },
+  { label: 'About', href: '#about' },
+  { label: 'Projects', href: '#projects' },
+  { label: 'Stack', href: '#stack' },
+  { label: 'Contact', href: '#contact' },
 ];
 
-export function Navbar() {
-  const [isOpen, setIsOpen] = useState(false);
+export default function Navbar() {
+  const [scrolled, setScrolled] = useState(false);
+  const [menuOpen, setMenuOpen] = useState(false);
+  const navigate = useNavigate();
+  const location = useLocation();
+
+  useEffect(() => {
+    const onScroll = () => setScrolled(window.scrollY > 80);
+    window.addEventListener('scroll', onScroll, { passive: true });
+    return () => window.removeEventListener('scroll', onScroll);
+  }, []);
+
+  useEffect(() => {
+    if (menuOpen) {
+      document.body.style.overflow = 'hidden';
+    } else {
+      document.body.style.overflow = '';
+    }
+    return () => { document.body.style.overflow = ''; };
+  }, [menuOpen]);
+
+  const handleNavClick = (href: string) => {
+    setMenuOpen(false);
+    if (location.pathname !== '/') {
+      navigate('/');
+      setTimeout(() => {
+        const el = document.querySelector(href);
+        if (el) el.scrollIntoView({ behavior: 'smooth' });
+      }, 300);
+    } else {
+      const el = document.querySelector(href);
+      if (el) el.scrollIntoView({ behavior: 'smooth' });
+    }
+  };
 
   return (
-    <header className="fixed top-0 left-0 w-full z-50 pointer-events-none">
-      <nav className="mx-auto mt-4 max-w-7xl px-4 sm:px-6 pointer-events-auto">
-        {/* Global Navigation - Tier 1 */}
-        <motion.div
-          initial={{ opacity: 0, y: -20 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.5, ease: [0.25, 0.46, 0.45, 0.94] }}
-          className="flex items-center justify-between gap-4 px-6 py-3 rounded-2xl bg-[var(--ink2)]/80 backdrop-blur-xl border border-white/10 shadow-[0_4px_24px_rgba(0,0,0,0.25)]"
-        >
+    <>
+      <motion.nav
+        initial={{ y: -20, opacity: 0 }}
+        animate={{ y: 0, opacity: 1 }}
+        transition={{ duration: 0.6, ease: [0.25, 0.46, 0.45, 0.94] }}
+        style={{
+          position: 'fixed',
+          top: 0,
+          left: 0,
+          right: 0,
+          zIndex: 50,
+          backdropFilter: scrolled ? 'blur(20px)' : 'none',
+          backgroundColor: scrolled ? 'rgba(8,10,15,0.85)' : 'transparent',
+          borderBottom: scrolled ? '1px solid rgba(201,168,76,0.2)' : '1px solid transparent',
+          transition: 'background-color 0.3s ease, backdrop-filter 0.3s ease, border-color 0.3s ease',
+        }}
+      >
+        <div style={{ maxWidth: '1280px', margin: '0 auto', padding: '0 2rem', display: 'flex', alignItems: 'center', justifyContent: 'space-between', height: '72px' }}>
           {/* Logo */}
           <Link
             to="/"
-            className="text-2xl font-bold text-sky-400 select-none"
+            style={{
+              fontFamily: 'Cormorant Garamond, serif',
+              fontSize: '1.1rem',
+              fontWeight: 500,
+              color: 'var(--gold)',
+              textDecoration: 'none',
+              letterSpacing: '0.05em',
+            }}
           >
-            MO
+            M.A
           </Link>
 
           {/* Desktop nav */}
-          <ul className="hidden md:flex items-center gap-8">
+          <nav aria-label="Primary navigation" style={{ display: 'flex', gap: '2.5rem', alignItems: 'center' }} className="hidden md:flex">
             {navLinks.map((link) => (
-              <li key={link.href}>
-                <Link
-                  to={link.href}
-                  className="text-sm font-medium text-[var(--faint)] hover:text-white transition-colors"
-                >
-                  {link.label}
-                </Link>
-              </li>
+              <button
+                key={link.label}
+                onClick={() => handleNavClick(link.href)}
+                style={{
+                  background: 'none',
+                  border: 'none',
+                  fontFamily: 'DM Sans, sans-serif',
+                  fontWeight: 300,
+                  fontSize: '0.8rem',
+                  letterSpacing: '0.1em',
+                  textTransform: 'uppercase',
+                  color: 'var(--platinum-dim)',
+                  cursor: 'none',
+                  transition: 'color 0.2s ease',
+                  padding: '0.25rem 0',
+                }}
+                onMouseEnter={e => (e.currentTarget.style.color = 'var(--gold)')}
+                onMouseLeave={e => (e.currentTarget.style.color = 'var(--platinum-dim)')}
+              >
+                {link.label}
+              </button>
             ))}
-          </ul>
+          </nav>
 
-          {/* CTA + Mobile menu */}
-          <div className="flex items-center gap-3">
-            <Link
-              to="/#contact"
-              className="hidden sm:flex items-center gap-2 px-5 py-2 rounded-xl text-sm font-bold text-white bg-emerald-500 hover:bg-emerald-600 transition-all shadow-[0_2px_12px_rgba(16,185,129,0.3)]"
-            >
-              <FileDown className="w-4 h-4" />
-              Hire Me
-            </Link>
+          {/* Mobile hamburger */}
+          <button
+            className="md:hidden"
+            onClick={() => setMenuOpen(true)}
+            aria-label="Open menu"
+            style={{ background: 'none', border: 'none', color: 'var(--platinum)', cursor: 'none', padding: '0.5rem' }}
+          >
+            <Menu size={20} />
+          </button>
+        </div>
+      </motion.nav>
+
+      {/* Mobile fullscreen overlay */}
+      <AnimatePresence>
+        {menuOpen && (
+          <motion.div
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+            transition={{ duration: 0.25 }}
+            style={{
+              position: 'fixed',
+              inset: 0,
+              zIndex: 100,
+              backgroundColor: 'rgba(8,10,15,0.97)',
+              backdropFilter: 'blur(20px)',
+              display: 'flex',
+              flexDirection: 'column',
+              alignItems: 'center',
+              justifyContent: 'center',
+              gap: '2.5rem',
+            }}
+          >
             <button
-              onClick={() => setIsOpen(!isOpen)}
-              className="md:hidden p-2 text-slate-400 hover:text-white transition-colors rounded-lg"
-              aria-label="Toggle menu"
+              onClick={() => setMenuOpen(false)}
+              aria-label="Close menu"
+              style={{
+                position: 'absolute',
+                top: '1.5rem',
+                right: '2rem',
+                background: 'none',
+                border: 'none',
+                color: 'var(--platinum)',
+                cursor: 'none',
+                padding: '0.5rem',
+              }}
             >
-              {isOpen ? <X className="w-6 h-6" /> : <Menu className="w-6 h-6" />}
+              <X size={22} />
             </button>
-          </div>
-        </motion.div>
 
-        {/* Mobile menu */}
-        <AnimatePresence>
-          {isOpen && (
-            <motion.div
-              initial={{ opacity: 0, y: -10 }}
-              animate={{ opacity: 1, y: 0 }}
-              exit={{ opacity: 0, y: -10 }}
-              transition={{ duration: 0.2 }}
-              className="md:hidden mt-3 rounded-2xl bg-slate-900/60 backdrop-blur-md border border-white/10 overflow-hidden"
-            >
-              <ul className="flex flex-col p-4 gap-1">
-                {navLinks.map((link, index) => (
-                  <motion.li
-                    key={link.href}
-                    initial={{ opacity: 0, x: -20 }}
-                    animate={{ opacity: 1, x: 0 }}
-                    transition={{ delay: index * 0.05 }}
-                  >
-                    <Link
-                      to={link.href}
-                      onClick={() => setIsOpen(false)}
-                      className="block px-4 py-3 text-base font-medium text-slate-400 hover:text-white hover:bg-white/5 rounded-xl transition-colors"
-                    >
-                      {link.label}
-                    </Link>
-                  </motion.li>
-                ))}
-                <motion.li
-                  initial={{ opacity: 0, x: -20 }}
-                  animate={{ opacity: 1, x: 0 }}
-                  transition={{ delay: 0.2 }}
-                >
-                  <Link
-                    to="/#contact"
-                    onClick={() => setIsOpen(false)}
-                    className="flex items-center gap-2 px-4 py-3 mt-2 rounded-xl font-semibold text-emerald-400 bg-emerald-500/10"
-                  >
-                    <FileDown className="w-4 h-4" />
-                    Hire Me
-                  </Link>
-                </motion.li>
-              </ul>
-            </motion.div>
-          )}
-        </AnimatePresence>
-      </nav>
-    </header>
+            {navLinks.map((link, i) => (
+              <motion.button
+                key={link.label}
+                initial={{ opacity: 0, y: 20 }}
+                animate={{ opacity: 1, y: 0 }}
+                exit={{ opacity: 0, y: 20 }}
+                transition={{ delay: i * 0.07, duration: 0.3 }}
+                onClick={() => handleNavClick(link.href)}
+                style={{
+                  background: 'none',
+                  border: 'none',
+                  fontFamily: 'Cormorant Garamond, serif',
+                  fontWeight: 300,
+                  fontSize: '2.5rem',
+                  color: 'var(--platinum)',
+                  cursor: 'none',
+                  letterSpacing: '0.05em',
+                  transition: 'color 0.2s ease',
+                }}
+                onMouseEnter={e => (e.currentTarget.style.color = 'var(--gold)')}
+                onMouseLeave={e => (e.currentTarget.style.color = 'var(--platinum)')}
+              >
+                {link.label}
+              </motion.button>
+            ))}
+          </motion.div>
+        )}
+      </AnimatePresence>
+    </>
   );
 }

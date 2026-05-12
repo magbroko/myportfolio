@@ -1,118 +1,183 @@
-import { motion } from 'framer-motion';
-import {
-  Code2,
-  FileCode,
-  Palette,
-  GitBranch,
-  Plug,
-  type LucideIcon,
-} from 'lucide-react';
+import { Layers, Zap, Gauge } from 'lucide-react';
 import { FadeInView } from './FadeInView';
 
-interface TechItem {
-  name: string;
-  icon: LucideIcon;
-}
-
-const techItems: TechItem[] = [
-  { name: 'React', icon: Code2 },
-  { name: 'TypeScript', icon: FileCode },
-  { name: 'Tailwind CSS', icon: Palette },
-  { name: 'Git', icon: GitBranch },
-  { name: 'APIs', icon: Plug },
+const techRow1 = [
+  'React 18', 'TypeScript', 'Tailwind CSS', 'Framer Motion', 'Vite',
+  'React Router', 'Lucide React', 'CSS3', 'HTML5', 'JavaScript ES6+',
+  'React 18', 'TypeScript', 'Tailwind CSS', 'Framer Motion', 'Vite',
+  'React Router', 'Lucide React', 'CSS3', 'HTML5', 'JavaScript ES6+',
 ];
 
-const marqueeItems = [...techItems, ...techItems];
+const techRow2 = [
+  'Git & GitHub', 'Responsive Design', 'Component Architecture', 'REST APIs',
+  'Performance Optimization', 'Accessibility', 'Dark Mode', 'Mobile-First',
+  'Git & GitHub', 'Responsive Design', 'Component Architecture', 'REST APIs',
+  'Performance Optimization', 'Accessibility', 'Dark Mode', 'Mobile-First',
+];
 
-export function TechStack() {
+const capabilities = [
+  {
+    icon: Layers,
+    title: 'Frontend Architecture',
+    description: 'Component-driven systems with TypeScript, clean separation of concerns, and scalable state patterns.',
+  },
+  {
+    icon: Zap,
+    title: 'Motion & Animation',
+    description: 'Purposeful micro-interactions with Framer Motion — transitions that guide attention and reward engagement.',
+  },
+  {
+    icon: Gauge,
+    title: 'Performance & Accessibility',
+    description: 'Lazy loading, optimized rendering, semantic HTML and ARIA attributes for inclusive, fast interfaces.',
+  },
+];
+
+export default function TechStack() {
   return (
-    <section id="tech" className="relative py-24 sm:py-32 bg-deep-black overflow-hidden">
-      <div className="absolute inset-0 bg-gradient-to-b from-slate-900/50 via-transparent to-slate-900/50" />
-
-      <div className="relative max-w-7xl mx-auto px-6 sm:px-8 lg:px-12 mb-16">
-        <FadeInView direction="up" delay={0}>
-          <h2 className="text-3xl sm:text-4xl md:text-5xl font-bold tracking-tight text-white mb-4">
-            Tech Stack
+    <section
+      id="stack"
+      style={{
+        backgroundColor: 'var(--bg-primary)',
+        padding: '8rem 0',
+        overflow: 'hidden',
+      }}
+    >
+      {/* Header */}
+      <div style={{ maxWidth: '1280px', margin: '0 auto', padding: '0 2rem', marginBottom: '4rem' }}>
+        <FadeInView>
+          <span className="section-number">03 — TECH STACK</span>
+          <h2
+            style={{
+              fontFamily: 'Cormorant Garamond, serif',
+              fontSize: 'clamp(2.5rem, 4vw, 3.5rem)',
+              fontWeight: 300,
+              fontStyle: 'italic',
+              color: 'var(--platinum)',
+              lineHeight: 1.1,
+            }}
+          >
+            Capabilities
           </h2>
-          <p className="text-slate-400 text-lg max-w-2xl">
-            Tools and technologies that power modern, scalable frontend architectures.
-          </p>
         </FadeInView>
       </div>
 
-      {/* Marquee */}
-      <div className="relative">
-        <motion.div
-          className="flex gap-12 sm:gap-16 w-max"
-          animate={{
-            x: [0, '-50%'],
-          }}
-          transition={{
-            x: {
-              repeat: Infinity,
-              repeatType: 'loop',
-              duration: 25,
-              ease: 'linear',
-            },
+      {/* Marquee rows */}
+      <div style={{ marginBottom: '1rem', overflow: 'hidden' }}>
+        <div
+          className="animate-marquee-left"
+          style={{
+            display: 'flex',
+            gap: '2rem',
+            width: 'max-content',
           }}
         >
-          {marqueeItems.map((item, index) => (
-            <div
-              key={`${item.name}-${index}`}
-              className="flex items-center gap-3 px-6 py-4 rounded-xl bg-slate-800/40 border border-slate-700/50 backdrop-blur-sm flex-shrink-0"
+          {techRow1.map((tech, i) => (
+            <span
+              key={i}
+              style={{
+                fontFamily: 'JetBrains Mono, monospace',
+                fontSize: '0.75rem',
+                color: 'var(--text-secondary)',
+                letterSpacing: '0.1em',
+                padding: '0.4rem 1rem',
+                border: '1px solid rgba(201,168,76,0.1)',
+                whiteSpace: 'nowrap',
+                background: 'rgba(201,168,76,0.03)',
+              }}
             >
-              <item.icon className="w-8 h-8 text-emerald-400/80" />
-              <span className="text-lg font-semibold text-white whitespace-nowrap">
-                {item.name}
-              </span>
-            </div>
+              {tech}
+            </span>
           ))}
-        </motion.div>
+        </div>
       </div>
 
-      {/* Staggered grid for larger screens - visible on md+ */}
-      {/* <div className="relative mt-20 hidden md:block">
-        <div className="max-w-4xl mx-auto px-6">
-          <motion.div
-            className="grid grid-cols-2 lg:grid-cols-5 gap-4"
-            initial="hidden"
-            whileInView="visible"
-            viewport={{ once: true, amount: 0.2 }}
-            variants={{
-              hidden: {},
-              visible: {
-                transition: {
-                  staggerChildren: 0.1,
-                  delayChildren: 0.2,
-                },
-              },
-            }}
-          >
-            {techItems.map((item) => (
-              <motion.div
-                key={item.name}
-                variants={{
-                  hidden: { opacity: 0, y: 20 },
-                  visible: {
-                    opacity: 1,
-                    y: 0,
-                    transition: {
-                      duration: 0.5,
-                      ease: [0.25, 0.46, 0.45, 0.94],
-                    },
-                  },
-                }}
-                className="flex flex-col items-center gap-3 p-6 rounded-2xl bg-slate-800/30 border border-slate-700/50 hover:border-emerald-500/30 transition-colors"
-              >
-                <item.icon className="w-10 h-10 text-emerald-400/80" />
-                <span className="text-sm font-medium text-slate-300">
-                  {item.name}
-                </span>
-              </motion.div>
-            ))}
-          </motion.div>
+      <div style={{ marginBottom: '5rem', overflow: 'hidden' }}>
+        <div
+          className="animate-marquee-right"
+          style={{
+            display: 'flex',
+            gap: '2rem',
+            width: 'max-content',
+          }}
+        >
+          {techRow2.map((tech, i) => (
+            <span
+              key={i}
+              style={{
+                fontFamily: 'JetBrains Mono, monospace',
+                fontSize: '0.75rem',
+                color: 'var(--text-secondary)',
+                letterSpacing: '0.1em',
+                padding: '0.4rem 1rem',
+                border: '1px solid rgba(201,168,76,0.08)',
+                whiteSpace: 'nowrap',
+                background: 'rgba(201,168,76,0.02)',
+              }}
+            >
+              {tech}
+            </span>
+          ))}
         </div>
-      </div> */}
+      </div>
+
+      {/* Capabilities grid */}
+      <div style={{ maxWidth: '1280px', margin: '0 auto', padding: '0 2rem' }}>
+        <div
+          style={{
+            display: 'grid',
+            gridTemplateColumns: 'repeat(auto-fit, minmax(260px, 1fr))',
+            gap: '2rem',
+          }}
+        >
+          {capabilities.map((cap, i) => (
+            <FadeInView key={cap.title} delay={i * 0.1}>
+              <div
+                style={{
+                  backgroundColor: 'var(--bg-card)',
+                  border: '1px solid rgba(201,168,76,0.08)',
+                  padding: '2rem',
+                  transition: 'border-color 0.25s ease',
+                }}
+                onMouseEnter={e => ((e.currentTarget as HTMLElement).style.borderColor = 'rgba(201,168,76,0.2)')}
+                onMouseLeave={e => ((e.currentTarget as HTMLElement).style.borderColor = 'rgba(201,168,76,0.08)')}
+              >
+                <cap.icon
+                  size={20}
+                  style={{ color: 'var(--gold)', marginBottom: '1.25rem', opacity: 0.8 }}
+                />
+                <h3
+                  style={{
+                    fontFamily: 'Cormorant Garamond, serif',
+                    fontSize: '1.2rem',
+                    fontWeight: 400,
+                    color: 'var(--platinum)',
+                    marginBottom: '0.75rem',
+                    lineHeight: 1.3,
+                  }}
+                >
+                  {cap.title}
+                </h3>
+                <p
+                  style={{
+                    fontFamily: 'DM Sans, sans-serif',
+                    fontWeight: 300,
+                    fontSize: '0.85rem',
+                    color: 'var(--text-secondary)',
+                    lineHeight: 1.7,
+                  }}
+                >
+                  {cap.description}
+                </p>
+              </div>
+            </FadeInView>
+          ))}
+        </div>
+      </div>
+
+      <div style={{ maxWidth: '1280px', margin: '0 auto', padding: '0 2rem' }}>
+        <div className="gold-divider" style={{ marginTop: '6rem', marginBottom: 0 }} />
+      </div>
     </section>
   );
 }

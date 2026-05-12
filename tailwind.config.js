@@ -8,37 +8,42 @@ export default {
   theme: {
     extend: {
       fontFamily: {
-        sans: ['Inter', 'system-ui', 'sans-serif'],
-        display: ['Syne', 'system-ui', 'sans-serif'],
+        sans: ['DM Sans', 'system-ui', 'sans-serif'],
+        display: ['Cormorant Garamond', 'Georgia', 'serif'],
+        mono: ['JetBrains Mono', 'monospace'],
       },
       colors: {
-        slate: {
-          950: '#0a0f1a',
-        },
-        'deep-black': '#020617',
-        accent: {
-          emerald: '#10b981',
-          sky: '#0ea5e9',
-          blue: '#1e40af',
-        },
-      },
-      backgroundImage: {
-        'gradient-radial': 'radial-gradient(var(--tw-gradient-stops))',
-        'gradient-subtle': 'linear-gradient(135deg, rgb(15 23 42 / 0.8) 0%, rgb(2 6 23 / 0.9) 100%)',
+        'bg-primary': '#080A0F',
+        'bg-secondary': '#0C0E14',
+        'bg-card': '#10121A',
+        'bg-card-hover': '#14161F',
+        gold: '#C9A84C',
+        'gold-dim': 'rgba(201, 168, 76, 0.15)',
+        'gold-border': 'rgba(201, 168, 76, 0.25)',
+        platinum: '#E8EAF0',
+        'platinum-dim': 'rgba(232, 234, 240, 0.6)',
+        teal: '#00D4AA',
+        'text-primary': '#E8EAF0',
+        'text-secondary': 'rgba(232, 234, 240, 0.55)',
       },
       keyframes: {
-        marquee: {
+        'marquee-left': {
           '0%': { transform: 'translateX(0)' },
           '100%': { transform: 'translateX(-50%)' },
         },
-        'gradient-shift': {
-          '0%, 100%': { backgroundPosition: '0% 50%' },
-          '50%': { backgroundPosition: '100% 50%' },
+        'marquee-right': {
+          '0%': { transform: 'translateX(-50%)' },
+          '100%': { transform: 'translateX(0)' },
+        },
+        breath: {
+          '0%': { transform: 'scale(1)', opacity: '0.4' },
+          '100%': { transform: 'scale(1.15)', opacity: '0.6' },
         },
       },
       animation: {
-        'marquee': 'marquee 25s linear infinite',
-        'gradient-shift': 'gradient-shift 4s ease-in-out infinite',
+        'marquee-left': 'marquee-left 30s linear infinite',
+        'marquee-right': 'marquee-right 30s linear infinite',
+        breath: 'breath 8s ease-in-out infinite alternate',
       },
     },
   },

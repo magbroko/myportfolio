@@ -1,155 +1,221 @@
-import { motion } from 'framer-motion';
-import { cn } from '@/lib/utils';
-import { useInView } from '@/hooks/useInView';
-import { Mail, Github, Linkedin, Phone } from 'lucide-react';
-import { ContactCard } from './ContactCard';
-import { contactInfo } from '@/data/portfolio';
+import { useState, type FormEvent } from 'react';
+import { Mail, Github, Linkedin } from 'lucide-react';
+import { FadeInView } from './FadeInView';
+import { contactInfo } from '../data/portfolio';
 
-const cardVariants = {
-  hidden: { opacity: 0, y: 20 },
-  visible: {
-    opacity: 1,
-    y: 0,
-    transition: {
-      duration: 0.6,
-      ease: [0.25, 0.46, 0.45, 0.94],
-    },
-  },
-};
+export default function Contact() {
+  const [formData, setFormData] = useState({ name: '', email: '', message: '' });
+  const [submitted, setSubmitted] = useState(false);
 
-const containerVariants = {
-  hidden: {},
-  visible: {
-    transition: {
-      staggerChildren: 0.1,
-      delayChildren: 0.1,
-    },
-  },
-};
+  const handleSubmit = (e: FormEvent) => {
+    e.preventDefault();
+    const mailto = `mailto:${contactInfo.email}?subject=Portfolio Contact from ${formData.name}&body=${encodeURIComponent(formData.message)}%0A%0AFrom: ${formData.name}%0AEmail: ${formData.email}`;
+    window.location.href = mailto;
+    setSubmitted(true);
+    setTimeout(() => setSubmitted(false), 3000);
+  };
 
-const iconGlowClass = 'drop-shadow-[0_0_8px_rgba(16,185,129,0.4)]';
-
-export function Contact() {
-  const { ref, isInView } = useInView({ threshold: 0.1, triggerOnce: true });
+  const contactLinks = [
+    { icon: Mail, label: 'Email', value: contactInfo.email, href: `mailto:${contactInfo.email}` },
+    { icon: Github, label: 'GitHub', value: 'magbroko', href: contactInfo.github },
+    { icon: Linkedin, label: 'LinkedIn', value: 'marvelous-agbroko', href: contactInfo.linkedIn },
+  ];
 
   return (
-    <motion.footer
-      ref={ref}
+    <section
       id="contact"
-      className="relative py-24 sm:py-32 bg-deep-black"
-      initial="hidden"
-      animate={isInView ? 'visible' : 'hidden'}
-      variants={containerVariants}
+      style={{
+        backgroundColor: 'var(--bg-secondary)',
+        padding: '8rem 2rem',
+      }}
     >
-      <div className="absolute inset-0 bg-gradient-to-t from-slate-900/30 via-transparent to-transparent pointer-events-none" />
+      <div style={{ maxWidth: '1280px', margin: '0 auto' }}>
+        <FadeInView>
+          <span className="section-number">04 — CONTACT</span>
+        </FadeInView>
 
-      <div className="relative max-w-7xl mx-auto px-6 sm:px-8 lg:px-12">
-        {/* Left-aligned heading - matches About section */}
-        <motion.div
-          variants={cardVariants}
-          className="mb-16"
-        >
-          <h2 className="font-display font-extrabold text-3xl sm:text-4xl md:text-5xl tracking-tighter text-white mb-4">
-            Contact
-          </h2>
-          <p className="text-slate-400 text-lg max-w-2xl">
-            Let&apos;s connect. Open to collaborations, opportunities, and thoughtful conversations about frontend architecture.
-          </p>
-        </motion.div>
-
-        {/* Glass cards grid */}
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
-          {/* Email */}
-          <motion.div variants={cardVariants}>
-            <ContactCard as="a" href={`mailto:${contactInfo.email}`}>
-              <Mail className={cn('w-6 h-6 text-emerald-400 flex-shrink-0', iconGlowClass)} />
-              <div className="relative z-10 min-w-0">
-                <span className="text-xs uppercase tracking-wider text-slate-500 block mb-1">
-                  Email
-                </span>
-                <span className="text-white font-medium break-all">{contactInfo.email}</span>
-              </div>
-            </ContactCard>
-          </motion.div>
-
-          {/* GitHub */}
-          <motion.div variants={cardVariants}>
-            <ContactCard
-              as="a"
-              href={contactInfo.github}
-              target="_blank"
-              rel="noopener noreferrer"
+        {/* Editorial heading */}
+        <FadeInView delay={0.1}>
+          <div style={{ marginBottom: '1.5rem' }}>
+            <div
+              style={{
+                fontFamily: 'Cormorant Garamond, serif',
+                fontSize: 'clamp(2.8rem, 5vw, 5rem)',
+                fontWeight: 300,
+                color: 'var(--platinum)',
+                lineHeight: 1.05,
+                letterSpacing: '-0.02em',
+              }}
             >
-              <Github className={cn('w-6 h-6 text-emerald-400 flex-shrink-0', iconGlowClass)} />
-              <div className="relative z-10 min-w-0">
-                <span className="text-xs uppercase tracking-wider text-slate-500 block mb-1">
-                  GitHub
-                </span>
-                <span className="text-white font-medium">@{contactInfo.github.split('/').pop()}</span>
-              </div>
-            </ContactCard>
-          </motion.div>
-
-          {/* LinkedIn */}
-          <motion.div variants={cardVariants}>
-            <ContactCard
-              as="a"
-              href={contactInfo.linkedIn}
-              target="_blank"
-              rel="noopener noreferrer"
+              Let's Build
+            </div>
+            <div
+              style={{
+                fontFamily: 'Cormorant Garamond, serif',
+                fontSize: 'clamp(2.8rem, 5vw, 5rem)',
+                fontWeight: 300,
+                fontStyle: 'italic',
+                color: 'var(--gold)',
+                lineHeight: 1.05,
+                letterSpacing: '-0.02em',
+              }}
             >
-              <Linkedin className={cn('w-6 h-6 text-emerald-400 flex-shrink-0', iconGlowClass)} />
-              <div className="relative z-10 min-w-0">
-                <span className="text-xs uppercase tracking-wider text-slate-500 block mb-1">
-                  LinkedIn
-                </span>
-                <span className="text-white font-medium">Marvelous Agbroko</span>
-              </div>
-            </ContactCard>
-          </motion.div>
-
-          {/* Phone */}
-          <motion.div variants={cardVariants}>
-            <ContactCard as="div">
-              <Phone className={cn('w-6 h-6 text-emerald-400 flex-shrink-0', iconGlowClass)} />
-              <div className="relative z-10 min-w-0">
-                <span className="text-xs uppercase tracking-wider text-slate-500 block mb-1">
-                  Phone
-                </span>
-                <div className="space-y-1">
-                  {contactInfo.phones.map((phone, i) => (
-                    <a
-                      key={i}
-                      href={`tel:${phone}`}
-                      className="block text-white font-medium hover:text-emerald-400 transition-colors"
-                    >
-                      {phone}
-                    </a>
-                  ))}
-                </div>
-              </div>
-            </ContactCard>
-          </motion.div>
-        </div>
-
-        {/* Footer bottom */}
-        <motion.div
-          variants={cardVariants}
-          className="mt-20 pt-12 border-t border-white/10"
-        >
-          <div className="flex flex-col sm:flex-row items-center justify-between gap-4">
-            <p className="text-slate-500 text-sm">
-              © {new Date().getFullYear()} {contactInfo.name}. All rights reserved.
-            </p>
-            <div className="flex items-center gap-6">
-              <span className="h-px w-8 bg-slate-700" />
-              <span className="text-xs uppercase tracking-[0.2em] text-slate-600">
-                Built with React, TypeScript & Framer Motion
-              </span>
+              Something Great
             </div>
           </div>
-        </motion.div>
+          <p
+            style={{
+              fontFamily: 'DM Sans, sans-serif',
+              fontWeight: 300,
+              fontSize: '1rem',
+              color: 'var(--text-secondary)',
+              marginBottom: '4rem',
+            }}
+          >
+            Open to frontend roles and freelance collaborations.
+          </p>
+        </FadeInView>
+
+        {/* Contact links row */}
+        <FadeInView delay={0.15}>
+          <div
+            style={{
+              display: 'flex',
+              flexWrap: 'wrap',
+              gap: '3rem',
+              marginBottom: '5rem',
+            }}
+          >
+            {contactLinks.map(({ icon: Icon, label, value, href }) => (
+              <a
+                key={label}
+                href={href}
+                target={label !== 'Email' ? '_blank' : undefined}
+                rel="noopener noreferrer"
+                aria-label={`${label}: ${value}`}
+                style={{
+                  display: 'flex',
+                  alignItems: 'center',
+                  gap: '0.75rem',
+                  textDecoration: 'none',
+                  color: 'var(--text-secondary)',
+                  transition: 'color 0.2s ease',
+                  cursor: 'none',
+                }}
+                onMouseEnter={e => (e.currentTarget.style.color = 'var(--gold)')}
+                onMouseLeave={e => (e.currentTarget.style.color = 'var(--text-secondary)')}
+              >
+                <Icon size={16} />
+                <div>
+                  <div
+                    style={{
+                      fontFamily: 'JetBrains Mono, monospace',
+                      fontSize: '0.6rem',
+                      letterSpacing: '0.15em',
+                      textTransform: 'uppercase',
+                      marginBottom: '0.15rem',
+                      opacity: 0.6,
+                    }}
+                  >
+                    {label}
+                  </div>
+                  <div
+                    style={{
+                      fontFamily: 'DM Sans, sans-serif',
+                      fontWeight: 300,
+                      fontSize: '0.85rem',
+                    }}
+                  >
+                    {value}
+                  </div>
+                </div>
+              </a>
+            ))}
+          </div>
+        </FadeInView>
+
+        {/* Contact form */}
+        <FadeInView delay={0.2}>
+          <div style={{ maxWidth: '560px' }}>
+            <div
+              style={{
+                fontFamily: 'JetBrains Mono, monospace',
+                fontSize: '0.65rem',
+                color: 'var(--gold)',
+                letterSpacing: '0.2em',
+                textTransform: 'uppercase',
+                marginBottom: '2rem',
+              }}
+            >
+              Send a Message
+            </div>
+            <form onSubmit={handleSubmit} style={{ display: 'flex', flexDirection: 'column', gap: '2rem' }}>
+              <div>
+                <input
+                  type="text"
+                  placeholder="Your Name"
+                  value={formData.name}
+                  onChange={e => setFormData(prev => ({ ...prev, name: e.target.value }))}
+                  required
+                  className="gold-input"
+                  aria-label="Your name"
+                />
+              </div>
+              <div>
+                <input
+                  type="email"
+                  placeholder="Your Email"
+                  value={formData.email}
+                  onChange={e => setFormData(prev => ({ ...prev, email: e.target.value }))}
+                  required
+                  className="gold-input"
+                  aria-label="Your email"
+                />
+              </div>
+              <div>
+                <textarea
+                  placeholder="Your Message"
+                  value={formData.message}
+                  onChange={e => setFormData(prev => ({ ...prev, message: e.target.value }))}
+                  required
+                  rows={5}
+                  className="gold-input"
+                  aria-label="Your message"
+                  style={{ resize: 'vertical', minHeight: '120px' }}
+                />
+              </div>
+              <div>
+                <button
+                  type="submit"
+                  style={{
+                    background: 'var(--gold)',
+                    border: 'none',
+                    color: 'var(--bg-primary)',
+                    fontFamily: 'DM Sans, sans-serif',
+                    fontWeight: 500,
+                    fontSize: '0.85rem',
+                    letterSpacing: '0.1em',
+                    textTransform: 'uppercase',
+                    padding: '0.9rem 2.5rem',
+                    cursor: 'none',
+                    transition: 'opacity 0.2s ease, transform 0.2s ease',
+                  }}
+                  onMouseEnter={e => {
+                    (e.currentTarget as HTMLElement).style.opacity = '0.85';
+                    (e.currentTarget as HTMLElement).style.transform = 'translateY(-1px)';
+                  }}
+                  onMouseLeave={e => {
+                    (e.currentTarget as HTMLElement).style.opacity = '1';
+                    (e.currentTarget as HTMLElement).style.transform = 'translateY(0)';
+                  }}
+                >
+                  {submitted ? 'Opening mail client...' : 'Send Message'}
+                </button>
+              </div>
+            </form>
+          </div>
+        </FadeInView>
       </div>
-    </motion.footer>
+    </section>
   );
 }

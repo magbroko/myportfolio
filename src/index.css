@@ -1,90 +1,187 @@
+@import url('https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;1,300;1,400&family=DM+Sans:wght@300;400;500;600&family=JetBrains+Mono:wght@400;500&display=swap');
+
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
 
-/* Premium Heritage / NelShop brand tokens */
 :root {
-  --maroon: #8b1538;
-  --maroon-light: #a91d47;
-  --maroon-lt: #b84d6a;
-  --maroon-pale: rgba(139, 21, 56, 0.15);
-  --maroon-muted: rgba(139, 21, 56, 0.2);
-  --border: rgba(255, 255, 255, 0.2);
-  --ink: #0f0f12;
-  --ink2: #0c0a09;
-  --ink-light: #1a1a1f;
-  --faint: rgba(148, 163, 184, 0.7);
-  --r-lg: 22px;
-  --r-pill: 9999px;
-  --sh-lg: 0 20px 40px -12px rgba(0, 0, 0, 0.4), 0 8px 16px -8px rgba(0, 0, 0, 0.3);
-  --sh-xl: 0 32px 80px rgba(0, 0, 0, 0.16);
-  --muted: rgba(148, 163, 184, 0.9);
-  --ease: cubic-bezier(0.25, 0.46, 0.45, 0.94);
-  --ease-s: 0.55s;
-  --beige-dk: #1c1917;
+  --bg-primary: #080A0F;
+  --bg-secondary: #0C0E14;
+  --bg-card: #10121A;
+  --bg-card-hover: #14161F;
+  --gold: #C9A84C;
+  --gold-dim: rgba(201, 168, 76, 0.15);
+  --gold-border: rgba(201, 168, 76, 0.25);
+  --platinum: #E8EAF0;
+  --platinum-dim: rgba(232, 234, 240, 0.6);
+  --teal: #00D4AA;
+  --text-primary: #E8EAF0;
+  --text-secondary: rgba(232, 234, 240, 0.55);
+  --divider: rgba(201, 168, 76, 0.2);
 }
 
-/* App Mockup - product shot with depth */
-.app-mockup {
-  border-radius: var(--r-lg);
-  box-shadow: var(--sh-xl);
-  transition: transform 0.4s var(--ease), box-shadow 0.4s var(--ease), backdrop-filter 0.4s var(--ease);
-  transform: perspective(1000px) rotateX(5deg) rotateY(-5deg);
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
 }
 
-.app-mockup:hover {
-  transform: perspective(1000px) rotateX(5deg) rotateY(-5deg) scale(1.02);
-  box-shadow: 0 40px 100px rgba(0, 0, 0, 0.2);
+html {
+  scroll-behavior: smooth;
 }
 
-@layer base {
-  html {
-    scroll-behavior: smooth;
-  }
+body {
+  background-color: var(--bg-primary);
+  color: var(--text-primary);
+  font-family: 'DM Sans', sans-serif;
+  font-weight: 300;
+  cursor: none;
+  overflow-x: hidden;
+}
 
-  body {
-    @apply bg-deep-black text-slate-100;
-  }
+/* Custom cursor */
+.cursor {
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  background: var(--gold);
+  position: fixed;
+  top: 0;
+  left: 0;
+  pointer-events: none;
+  z-index: 9999;
+  transform: translate(-50%, -50%);
+  transition: transform 0.15s ease, width 0.2s ease, height 0.2s ease, background 0.2s ease;
+  mix-blend-mode: screen;
+}
+
+.cursor-ring {
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
+  border: 1px solid rgba(201, 168, 76, 0.5);
+  position: fixed;
+  top: 0;
+  left: 0;
+  pointer-events: none;
+  z-index: 9998;
+  transform: translate(-50%, -50%);
+  transition: transform 0.35s ease, width 0.3s ease, height 0.3s ease;
+}
+
+body:has(a:hover) .cursor,
+body:has(button:hover) .cursor {
+  width: 18px;
+  height: 18px;
+  background: var(--teal);
+}
+
+body:has(a:hover) .cursor-ring,
+body:has(button:hover) .cursor-ring {
+  width: 52px;
+  height: 52px;
+}
+
+/* Grain overlay */
+body::before {
+  content: '';
+  position: fixed;
+  inset: 0;
+  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)' opacity='0.04'/%3E%3C/svg%3E");
+  pointer-events: none;
+  z-index: 1000;
+  opacity: 0.35;
+}
+
+/* Section numbering utility */
+.section-number {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 0.7rem;
+  color: var(--gold);
+  letter-spacing: 0.15em;
+  display: block;
+  margin-bottom: 0.75rem;
+}
+
+/* Divider line */
+.gold-divider {
+  width: 100%;
+  height: 1px;
+  background: var(--divider);
+  margin: 5rem 0;
 }
 
 /* Custom scrollbar */
 ::-webkit-scrollbar {
-  width: 8px;
+  width: 6px;
 }
 
 ::-webkit-scrollbar-track {
-  @apply bg-slate-900;
+  background: var(--bg-primary);
 }
 
 ::-webkit-scrollbar-thumb {
-  @apply bg-slate-600 rounded-full;
+  background: rgba(201, 168, 76, 0.2);
+  border-radius: 3px;
 }
 
 ::-webkit-scrollbar-thumb:hover {
-  @apply bg-slate-500;
+  background: rgba(201, 168, 76, 0.4);
 }
 
-/* Bento grid - responsive */
-.bento-grid {
-  display: grid;
-  gap: 1.5rem;
-  grid-template-columns: 1fr;
-  grid-template-rows: auto;
-  grid-template-areas:
-    "feat"
-    "side1"
-    "side2"
-    "low1"
-    "low2";
+/* Marquee animation */
+@keyframes marquee-left {
+  0% { transform: translateX(0); }
+  100% { transform: translateX(-50%); }
 }
 
-@media (min-width: 1024px) {
-  .bento-grid {
-    gap: 2rem;
-    grid-template-columns: 1fr 1fr;
-    grid-template-areas:
-      "feat feat"
-      "side1 side2"
-      "low1 low2";
-  }
+@keyframes marquee-right {
+  0% { transform: translateX(-50%); }
+  100% { transform: translateX(0); }
+}
+
+.animate-marquee-left {
+  animation: marquee-left 30s linear infinite;
+}
+
+.animate-marquee-right {
+  animation: marquee-right 30s linear infinite;
+}
+
+/* Hero breath animation */
+@keyframes breath {
+  0% { transform: scale(1); opacity: 0.4; }
+  100% { transform: scale(1.15); opacity: 0.6; }
+}
+
+.aura-breath {
+  animation: breath 8s ease-in-out infinite alternate;
+}
+
+/* Form input styles */
+.gold-input {
+  background: transparent;
+  border: none;
+  border-bottom: 1px solid rgba(201, 168, 76, 0.2);
+  color: var(--text-primary);
+  font-family: 'DM Sans', sans-serif;
+  font-weight: 300;
+  padding: 0.75rem 0;
+  width: 100%;
+  outline: none;
+  transition: border-color 0.2s ease;
+  font-size: 0.95rem;
+}
+
+.gold-input::placeholder {
+  color: var(--text-secondary);
+}
+
+.gold-input:focus {
+  border-bottom-color: var(--gold);
+}
+
+.gold-input:-webkit-autofill {
+  -webkit-box-shadow: 0 0 0 1000px var(--bg-primary) inset;
+  -webkit-text-fill-color: var(--text-primary);
 }

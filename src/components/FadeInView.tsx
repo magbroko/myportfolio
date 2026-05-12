@@ -8,7 +8,6 @@ interface FadeInViewProps {
   direction?: 'up' | 'down' | 'left' | 'right';
   duration?: number;
   once?: boolean;
-  amount?: number;
 }
 
 const directionOffset = {
@@ -23,9 +22,8 @@ export function FadeInView({
   className,
   delay = 0,
   direction = 'up',
-  duration = 0.6,
+  duration = 0.65,
   once = true,
-  amount = 0.2,
 }: FadeInViewProps) {
   const offset = directionOffset[direction];
 
@@ -51,10 +49,12 @@ export function FadeInView({
       className={className}
       initial="hidden"
       whileInView="visible"
-      viewport={{ once, amount }}
+      viewport={{ once, margin: '-80px' }}
       variants={variants}
     >
       {children}
     </motion.div>
   );
 }
+
+export default FadeInView;
