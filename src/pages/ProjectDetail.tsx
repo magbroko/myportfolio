@@ -121,20 +121,6 @@ export default function ProjectDetail() {
           >
             {project.subtitle}
           </p>
-          <span
-            style={{
-              fontFamily: 'JetBrains Mono, monospace',
-              fontSize: '0.7rem',
-              color: 'var(--text-secondary)',
-              letterSpacing: '0.1em',
-              background: 'rgba(201,168,76,0.08)',
-              border: '1px solid rgba(201,168,76,0.15)',
-              padding: '0.3rem 0.75rem',
-              borderRadius: '2px',
-            }}
-          >
-            {project.year}
-          </span>
         </FadeInView>
 
         {/* Gold divider */}
@@ -283,41 +269,22 @@ export default function ProjectDetail() {
                   </div>
                 </div>
 
-                {/* Category & Year */}
-                <div style={{ display: 'flex', flexDirection: 'column', gap: '1rem' }}>
-                  <div>
-                    <div
-                      style={{
-                        fontFamily: 'JetBrains Mono, monospace',
-                        fontSize: '0.6rem',
-                        color: 'var(--text-secondary)',
-                        letterSpacing: '0.15em',
-                        textTransform: 'uppercase',
-                        marginBottom: '0.25rem',
-                      }}
-                    >
-                      Category
-                    </div>
-                    <div style={{ fontFamily: 'DM Sans, sans-serif', fontWeight: 300, fontSize: '0.9rem', color: 'var(--platinum)' }}>
-                      {project.category}
-                    </div>
+                {/* Category */}
+                <div>
+                  <div
+                    style={{
+                      fontFamily: 'JetBrains Mono, monospace',
+                      fontSize: '0.6rem',
+                      color: 'var(--text-secondary)',
+                      letterSpacing: '0.15em',
+                      textTransform: 'uppercase',
+                      marginBottom: '0.25rem',
+                    }}
+                  >
+                    Category
                   </div>
-                  <div>
-                    <div
-                      style={{
-                        fontFamily: 'JetBrains Mono, monospace',
-                        fontSize: '0.6rem',
-                        color: 'var(--text-secondary)',
-                        letterSpacing: '0.15em',
-                        textTransform: 'uppercase',
-                        marginBottom: '0.25rem',
-                      }}
-                    >
-                      Year
-                    </div>
-                    <div style={{ fontFamily: 'DM Sans, sans-serif', fontWeight: 300, fontSize: '0.9rem', color: 'var(--platinum)' }}>
-                      {project.year}
-                    </div>
+                  <div style={{ fontFamily: 'DM Sans, sans-serif', fontWeight: 300, fontSize: '0.9rem', color: 'var(--platinum)' }}>
+                    {project.category}
                   </div>
                 </div>
 

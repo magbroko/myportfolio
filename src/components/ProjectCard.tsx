@@ -58,8 +58,8 @@ const ProjectCard = memo(function ProjectCard({ project, index, featured = false
         {num}
       </span>
 
-      {/* Top row: category + year */}
-      <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '1.5rem' }}>
+      {/* Top row: category */}
+      <div style={{ marginBottom: '1.5rem' }}>
         <span
           style={{
             fontFamily: 'JetBrains Mono, monospace',
@@ -70,16 +70,6 @@ const ProjectCard = memo(function ProjectCard({ project, index, featured = false
           }}
         >
           {project.category}
-        </span>
-        <span
-          style={{
-            fontFamily: 'JetBrains Mono, monospace',
-            fontSize: '0.65rem',
-            color: 'var(--text-secondary)',
-            letterSpacing: '0.1em',
-          }}
-        >
-          {project.year}
         </span>
       </div>
 
