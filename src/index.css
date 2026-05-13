@@ -1,23 +1,37 @@
-@import url('https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;1,300;1,400&family=DM+Sans:wght@300;400;500;600&family=JetBrains+Mono:wght@400;500&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;1,300;1,400&family=Montserrat:wght@300;400;500;600&family=JetBrains+Mono:wght@400;500&display=swap');
 
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
 
 :root {
-  --bg-primary: #080A0F;
-  --bg-secondary: #0C0E14;
-  --bg-card: #10121A;
-  --bg-card-hover: #14161F;
-  --gold: #C9A84C;
+  /* Backgrounds */
+  --bg-primary: #080808;
+  --bg-secondary: #0f0f0d;
+  --bg-card: #111110;
+  --bg-card-hover: #161614;
+
+  /* Gold */
+  --gold: #c9a84c;
+  --gold-hover: #b8922a;
   --gold-dim: rgba(201, 168, 76, 0.15);
   --gold-border: rgba(201, 168, 76, 0.25);
-  --platinum: #E8EAF0;
-  --platinum-dim: rgba(232, 234, 240, 0.6);
-  --teal: #00D4AA;
-  --text-primary: #E8EAF0;
-  --text-secondary: rgba(232, 234, 240, 0.55);
+
+  /* Text */
+  --platinum: #f0e8d5;
+  --platinum-dim: rgba(240, 232, 213, 0.6);
+  --text-primary: #f0e8d5;
+  --text-secondary: #9a9080;
+  --text-muted: #6a6258;
+
+  /* Borders */
+  --border-default: #1a1815;
+  --border-subtle: #2a2520;
   --divider: rgba(201, 168, 76, 0.2);
+
+  /* Accents */
+  --teal: #00D4AA;
+  --status-green: #2d6a4f;
 }
 
 * {
@@ -33,7 +47,7 @@ html {
 body {
   background-color: var(--bg-primary);
   color: var(--text-primary);
-  font-family: 'DM Sans', sans-serif;
+  font-family: 'Montserrat', sans-serif;
   font-weight: 300;
   cursor: none;
   overflow-x: hidden;
@@ -164,7 +178,7 @@ body::before {
   border: none;
   border-bottom: 1px solid rgba(201, 168, 76, 0.2);
   color: var(--text-primary);
-  font-family: 'DM Sans', sans-serif;
+  font-family: 'Montserrat', sans-serif;
   font-weight: 300;
   padding: 0.75rem 0;
   width: 100%;
@@ -184,4 +198,50 @@ body::before {
 .gold-input:-webkit-autofill {
   -webkit-box-shadow: 0 0 0 1000px var(--bg-primary) inset;
   -webkit-text-fill-color: var(--text-primary);
+}
+
+/* Ghost button with fill-sweep on hover */
+.btn-ghost {
+  position: relative;
+  overflow: hidden;
+  isolation: isolate;
+  background: transparent;
+  border: 1px solid var(--gold);
+  color: var(--gold);
+  font-family: 'Montserrat', sans-serif;
+  font-weight: 400;
+  font-size: 0.8rem;
+  letter-spacing: 0.15em;
+  text-transform: uppercase;
+  padding: 0.85rem 2rem;
+  cursor: none;
+  transition: color 0.35s ease;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+}
+
+.btn-ghost::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: var(--gold);
+  z-index: -1;
+  transform: scaleX(0);
+  transform-origin: left center;
+  transition: transform 0.35s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+}
+
+.btn-ghost:hover {
+  color: var(--bg-primary);
+}
+
+.btn-ghost:hover::before {
+  transform: scaleX(1);
+}
+
+.btn-ghost:focus-visible {
+  outline: 2px solid var(--gold);
+  outline-offset: 3px;
 }

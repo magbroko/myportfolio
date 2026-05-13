@@ -1,3 +1,13 @@
+import {
+  memo,
+  useEffect,
+  useMemo,
+  useRef,
+  type JSX,
+} from 'react';
+import { Canvas, useFrame } from '@react-three/fiber';
+import { AdaptiveDpr } from '@react-three/drei';
+import * as THREE from 'three';
 import { motion } from 'framer-motion';
 import { ArrowRight } from 'lucide-react';
 
@@ -18,6 +28,168 @@ const fadeUp = {
   },
 };
 
+type WireMeshProps = { detail: number };
+
+function WireMesh({ detail }: WireMeshProps) {
+  const meshRef = useRef<THREE.Mesh>(null);
+  const { geometry, material } = useMemo(() => {
+    const geo = new THREE.IcosahedronGeometry(1.85, detail);
+    const mat = new THREE.MeshBasicMaterial({
+      color: new THREE.Color('#c9a84c'),
+      wireframe: true,
+      transparent: true,
+      opacity: 0.15,
+    });
+    return { geometry: geo, material: mat };
+  }, [detail]);
+
+  useEffect(() => {
+    return () => {
+      geometry.dispose();
+      material.dispose();
+    };
+  }, [geometry, material]);
+
+  useFrame((state, delta) => {
+    const m = meshRef.current;
+    if (!m) return;
+    m.rotation.y += delta * 0.12;
+    m.rotation.x += delta * 0.04;
+    const pulse = 1 + Math.sin(state.clock.elapsedTime * 0.35) * 0.028;
+    m.scale.setScalar(pulse);
+  });
+
+  return <mesh ref={meshRef} geometry={geometry} material={material} />;
+}
+
+type DustParticlesProps = { count: number };
+
+function DustParticles({ count }: DustParticlesProps) {
+  const pointsRef = useRef<THREE.Points>(null);
+  const velocitiesRef = useRef<Float32Array | null>(null);
+
+  const { geometry, material } = useMemo(() => {
+    const positions = new Float32Array(count * 3);
+    const velocities = new Float32Array(count * 3);
+    for (let i = 0; i < count; i++) {
+      const i3 = i * 3;
+      positions[i3] = (Math.random() - 0.5) * 16;
+      positions[i3 + 1] = (Math.random() - 0.5) * 16;
+      positions[i3 + 2] = (Math.random() - 0.5) * 12;
+      velocities[i3] = (Math.random() - 0.5) * 0.006;
+      velocities[i3 + 1] = (Math.random() - 0.5) * 0.006;
+      velocities[i3 + 2] = (Math.random() - 0.5) * 0.004;
+    }
+    velocitiesRef.current = velocities;
+
+    const geo = new THREE.BufferGeometry();
+    geo.setAttribute('position', new THREE.BufferAttribute(positions, 3));
+
+    const mat = new THREE.PointsMaterial({
+      color: new THREE.Color('#f0e8d5'),
+      size: 0.035,
+      transparent: true,
+      opacity: 0.04,
+      sizeAttenuation: true,
+      depthWrite: false,
+    });
+
+    return { geometry: geo, material: mat };
+  }, [count]);
+
+  useEffect(() => {
+    return () => {
+      geometry.dispose();
+      material.dispose();
+    };
+  }, [geometry, material]);
+
+  useFrame((_, delta) => {
+    const points = pointsRef.current;
+    const velocities = velocitiesRef.current;
+    if (!points || !velocities) return;
+
+    const posAttr = points.geometry.attributes.position as THREE.BufferAttribute;
+    const arr = posAttr.array as Float32Array;
+    const wrapLimit = 9;
+
+    for (let i = 0; i < count; i++) {
+      const i3 = i * 3;
+      arr[i3] += velocities[i3] * delta;
+      arr[i3 + 1] += velocities[i3 + 1] * delta;
+      arr[i3 + 2] += velocities[i3 + 2] * delta;
+
+      if (arr[i3] > wrapLimit) arr[i3] -= wrapLimit * 2;
+      else if (arr[i3] < -wrapLimit) arr[i3] += wrapLimit * 2;
+
+      if (arr[i3 + 1] > wrapLimit) arr[i3 + 1] -= wrapLimit * 2;
+      else if (arr[i3 + 1] < -wrapLimit) arr[i3 + 1] += wrapLimit * 2;
+
+      if (arr[i3 + 2] > wrapLimit) arr[i3 + 2] -= wrapLimit * 2;
+      else if (arr[i3 + 2] < -wrapLimit) arr[i3 + 2] += wrapLimit * 2;
+    }
+
+    posAttr.needsUpdate = true;
+  });
+
+  return <points ref={pointsRef} geometry={geometry} material={material} />;
+}
+
+type HeroThreeBackgroundProps = {
+  particleCount: number;
+  meshDetail: number;
+};
+
+const HeroThreeBackground = memo(function HeroThreeBackground({
+  particleCount,
+  meshDetail,
+}: HeroThreeBackgroundProps) {
+  return (
+    <Canvas
+      camera={{ position: [0, 0, 7.5], fov: 45 }}
+      gl={{
+        alpha: true,
+        antialias: true,
+        powerPreference: 'high-performance',
+      }}
+      dpr={[1, 2]}
+      style={{
+        width: '100%',
+        height: '100%',
+        display: 'block',
+      }}
+    >
+      <AdaptiveDpr />
+      <WireMesh detail={meshDetail} />
+      <DustParticles count={particleCount} />
+    </Canvas>
+  );
+});
+
+function HeroThreeSceneBackdrop({
+  particleCount,
+  meshDetail,
+}: HeroThreeBackgroundProps): JSX.Element {
+  return (
+    <motion.div
+      initial={{ opacity: 0 }}
+      animate={{ opacity: 1 }}
+      transition={{ duration: 2, delay: 0.3, ease: 'easeOut' }}
+      style={{
+        position: 'absolute',
+        inset: 0,
+        width: '100%',
+        height: '100%',
+        minHeight: '100%',
+        pointerEvents: 'none',
+        zIndex: 1,
+      }}
+    >
+      <HeroThreeBackground particleCount={particleCount} meshDetail={meshDetail} />
+    </motion.div>
+  );
+}
+
 export default function Hero() {
   const scrollToProjects = () => {
     const el = document.querySelector('#projects');
@@ -28,6 +200,15 @@ export default function Hero() {
     const el = document.querySelector('#contact');
     if (el) el.scrollIntoView({ behavior: 'smooth' });
   };
+
+  const { particleCount, meshDetail } = useMemo(() => {
+    const w = typeof window !== 'undefined' ? window.innerWidth : 1025;
+    const mobile = w < 768;
+    return {
+      particleCount: mobile ? 40 : 120,
+      meshDetail: mobile ? 0 : 2,
+    };
+  }, []);
 
   return (
     <section
@@ -68,6 +249,8 @@ export default function Hero() {
           zIndex: 0,
         }}
       />
+
+      <HeroThreeSceneBackdrop particleCount={particleCount} meshDetail={meshDetail} />
 
       {/* Top-left label */}
       <motion.div
@@ -184,11 +367,12 @@ export default function Hero() {
           <motion.p
             variants={fadeUp}
             style={{
-              fontFamily: 'DM Sans, sans-serif',
+              fontFamily: 'Montserrat, sans-serif',
               fontWeight: 300,
-              fontSize: '1.1rem',
+              fontSize: '1rem',
               color: 'var(--text-secondary)',
-              lineHeight: 1.6,
+              lineHeight: 1.7,
+              letterSpacing: '0.02em',
               marginBottom: '3rem',
             }}
           >
@@ -200,43 +384,22 @@ export default function Hero() {
             variants={fadeUp}
             style={{ display: 'flex', alignItems: 'center', gap: '2rem', flexWrap: 'wrap' }}
           >
-            <button
-              onClick={scrollToProjects}
-              style={{
-                background: 'transparent',
-                border: '1px solid var(--gold)',
-                color: 'var(--gold)',
-                fontFamily: 'DM Sans, sans-serif',
-                fontWeight: 400,
-                fontSize: '0.85rem',
-                letterSpacing: '0.08em',
-                padding: '0.85rem 2rem',
-                cursor: 'none',
-                transition: 'background 0.2s ease, color 0.2s ease',
-                textTransform: 'uppercase',
-              }}
-              onMouseEnter={e => {
-                e.currentTarget.style.background = 'var(--gold)';
-                e.currentTarget.style.color = 'var(--bg-primary)';
-              }}
-              onMouseLeave={e => {
-                e.currentTarget.style.background = 'transparent';
-                e.currentTarget.style.color = 'var(--gold)';
-              }}
-            >
+            <button onClick={scrollToProjects} className="btn-ghost">
               View Work
             </button>
 
             <button
               onClick={scrollToContact}
+              className="hero-text-btn"
               style={{
                 background: 'none',
                 border: 'none',
                 color: 'var(--text-secondary)',
-                fontFamily: 'DM Sans, sans-serif',
+                fontFamily: 'Montserrat, sans-serif',
                 fontWeight: 300,
-                fontSize: '0.85rem',
-                letterSpacing: '0.05em',
+                fontSize: '0.8rem',
+                letterSpacing: '0.1em',
+                textTransform: 'uppercase',
                 cursor: 'none',
                 display: 'flex',
                 alignItems: 'center',
@@ -246,17 +409,13 @@ export default function Hero() {
               }}
               onMouseEnter={e => {
                 e.currentTarget.style.color = 'var(--platinum)';
-                const arrow = e.currentTarget.querySelector('svg') as SVGElement | null;
-                if (arrow) (arrow as SVGElement & { style: CSSStyleDeclaration }).style.transform = 'translateX(4px)';
               }}
               onMouseLeave={e => {
                 e.currentTarget.style.color = 'var(--text-secondary)';
-                const arrow = e.currentTarget.querySelector('svg') as SVGElement | null;
-                if (arrow) (arrow as SVGElement & { style: CSSStyleDeclaration }).style.transform = 'translateX(0)';
               }}
             >
               Contact Me
-              <ArrowRight size={14} style={{ transition: 'transform 0.2s ease' }} />
+              <ArrowRight size={13} />
             </button>
           </motion.div>
         </motion.div>

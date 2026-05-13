@@ -91,12 +91,12 @@ const ProjectCard = memo(function ProjectCard({ project, index, featured = false
       {/* Subtitle */}
       <p
         style={{
-          fontFamily: 'DM Sans, sans-serif',
+          fontFamily: 'Montserrat, sans-serif',
           fontWeight: 300,
-          fontSize: '0.85rem',
+          fontSize: '0.82rem',
           color: 'var(--text-secondary)',
           marginBottom: '1.5rem',
-          lineHeight: 1.5,
+          lineHeight: 1.6,
         }}
       >
         {project.subtitle}
@@ -161,20 +161,21 @@ const ProjectCard = memo(function ProjectCard({ project, index, featured = false
           style={{
             background: 'none',
             border: 'none',
-            fontFamily: 'DM Sans, sans-serif',
+            fontFamily: 'Montserrat, sans-serif',
             fontWeight: 400,
-            fontSize: '0.78rem',
+            fontSize: '0.72rem',
             color: 'var(--gold)',
             cursor: 'none',
-            letterSpacing: '0.05em',
+            letterSpacing: '0.1em',
+            textTransform: 'uppercase',
             display: 'flex',
             alignItems: 'center',
             gap: '0.35rem',
             padding: 0,
-            transition: 'opacity 0.2s ease',
+            transition: 'color 0.2s ease',
           }}
-          onMouseEnter={e => (e.currentTarget.style.opacity = '0.7')}
-          onMouseLeave={e => (e.currentTarget.style.opacity = '1')}
+          onMouseEnter={e => (e.currentTarget.style.color = 'var(--gold-hover)')}
+          onMouseLeave={e => (e.currentTarget.style.color = 'var(--gold)')}
         >
           View Details →
         </button>

@@ -65,10 +65,11 @@ export default function Contact() {
           </div>
           <p
             style={{
-              fontFamily: 'DM Sans, sans-serif',
+              fontFamily: 'Montserrat, sans-serif',
               fontWeight: 300,
-              fontSize: '1rem',
+              fontSize: '0.9rem',
               color: 'var(--text-secondary)',
+              letterSpacing: '0.02em',
               marginBottom: '4rem',
             }}
           >
@@ -121,9 +122,9 @@ export default function Contact() {
                   </div>
                   <div
                     style={{
-                      fontFamily: 'DM Sans, sans-serif',
+                      fontFamily: 'Montserrat, sans-serif',
                       fontWeight: 300,
-                      fontSize: '0.85rem',
+                      fontSize: '0.82rem',
                     }}
                   >
                     {value}
@@ -187,27 +188,8 @@ export default function Contact() {
               <div>
                 <button
                   type="submit"
-                  style={{
-                    background: 'var(--gold)',
-                    border: 'none',
-                    color: 'var(--bg-primary)',
-                    fontFamily: 'DM Sans, sans-serif',
-                    fontWeight: 500,
-                    fontSize: '0.85rem',
-                    letterSpacing: '0.1em',
-                    textTransform: 'uppercase',
-                    padding: '0.9rem 2.5rem',
-                    cursor: 'none',
-                    transition: 'opacity 0.2s ease, transform 0.2s ease',
-                  }}
-                  onMouseEnter={e => {
-                    (e.currentTarget as HTMLElement).style.opacity = '0.85';
-                    (e.currentTarget as HTMLElement).style.transform = 'translateY(-1px)';
-                  }}
-                  onMouseLeave={e => {
-                    (e.currentTarget as HTMLElement).style.opacity = '1';
-                    (e.currentTarget as HTMLElement).style.transform = 'translateY(0)';
-                  }}
+                  className="btn-ghost"
+                  style={{ padding: '0.9rem 2.5rem' }}
                 >
                   {submitted ? 'Opening mail client...' : 'Send Message'}
                 </button>

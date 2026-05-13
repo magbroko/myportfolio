@@ -160,11 +160,11 @@ export default function TechStack() {
                 </h3>
                 <p
                   style={{
-                    fontFamily: 'DM Sans, sans-serif',
+                    fontFamily: 'Montserrat, sans-serif',
                     fontWeight: 300,
-                    fontSize: '0.85rem',
+                    fontSize: '0.82rem',
                     color: 'var(--text-secondary)',
-                    lineHeight: 1.7,
+                    lineHeight: 1.8,
                   }}
                 >
                   {cap.description}

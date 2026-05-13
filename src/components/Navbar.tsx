@@ -88,10 +88,10 @@ export default function Navbar() {
                 style={{
                   background: 'none',
                   border: 'none',
-                  fontFamily: 'DM Sans, sans-serif',
-                  fontWeight: 300,
-                  fontSize: '0.8rem',
-                  letterSpacing: '0.1em',
+                  fontFamily: 'Montserrat, sans-serif',
+                  fontWeight: 400,
+                  fontSize: '0.75rem',
+                  letterSpacing: '0.12em',
                   textTransform: 'uppercase',
                   color: 'var(--platinum-dim)',
                   cursor: 'none',
@@ -172,7 +172,7 @@ export default function Navbar() {
                   fontSize: '2.5rem',
                   color: 'var(--platinum)',
                   cursor: 'none',
-                  letterSpacing: '0.05em',
+                  letterSpacing: '0.03em',
                   transition: 'color 0.2s ease',
                 }}
                 onMouseEnter={e => (e.currentTarget.style.color = 'var(--gold)')}

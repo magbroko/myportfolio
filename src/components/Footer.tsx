@@ -26,7 +26,7 @@ export default function Footer() {
             letterSpacing: '0.08em',
           }}
         >
-          © 2025 Marvelous Agbroko
+          © 2026 Marvelous Agbroko
         </span>
         <span
           style={{

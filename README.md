@@ -6,16 +6,22 @@ A premium, cinematic portfolio built with a refined dark luxury aesthetic — de
 
 | Token | Value | Usage |
 |---|---|---|
-| `--bg-primary` | `#080A0F` | Page background |
-| `--bg-secondary` | `#0C0E14` | Section alternates |
-| `--bg-card` | `#10121A` | Project cards |
-| `--gold` | `#C9A84C` | Primary accent, headings |
-| `--platinum` | `#E8EAF0` | Body text, titles |
-| `--teal` | `#00D4AA` | Hover states only |
+| `--bg-primary` | `#080808` | Page background |
+| `--bg-secondary` | `#0f0f0d` | Section alternates |
+| `--bg-card` | `#111110` | Project cards |
+| `--gold` | `#c9a84c` | Primary accent |
+| `--gold-hover` | `#b8922a` | Gold on hover / muted |
+| `--platinum` | `#f0e8d5` | Body text, titles |
+| `--text-secondary` | `#9a9080` | Supporting text |
+| `--text-muted` | `#6a6258` | Timestamps, captions |
+| `--border-default` | `#1a1815` | Default borders |
+| `--border-subtle` | `#2a2520` | Subtle separators |
+| `--status-green` | `#2d6a4f` | Available / success states |
+| `--teal` | `#00D4AA` | Accent highlights |
 
 **Fonts**
 - `Cormorant Garamond` — display / hero headings
-- `DM Sans` — UI / body text
+- `Montserrat` — UI / body text, nav, labels, buttons
 - `JetBrains Mono` — section labels, tech chips, metadata
 
 ## Tech Stack

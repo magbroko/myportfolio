@@ -48,11 +48,11 @@ export default function About() {
             <div style={{ display: 'flex', flexDirection: 'column', gap: '1.75rem' }}>
               <p
                 style={{
-                  fontFamily: 'DM Sans, sans-serif',
+                  fontFamily: 'Montserrat, sans-serif',
                   fontWeight: 300,
-                  fontSize: '1rem',
+                  fontSize: '0.95rem',
                   color: 'var(--text-secondary)',
-                  lineHeight: 1.85,
+                  lineHeight: 1.9,
                 }}
               >
                 My journey began with Vanilla JavaScript and Bootstrap — learning
@@ -62,11 +62,11 @@ export default function About() {
               </p>
               <p
                 style={{
-                  fontFamily: 'DM Sans, sans-serif',
+                  fontFamily: 'Montserrat, sans-serif',
                   fontWeight: 300,
-                  fontSize: '1rem',
+                  fontSize: '0.95rem',
                   color: 'var(--text-secondary)',
-                  lineHeight: 1.85,
+                  lineHeight: 1.9,
                 }}
               >
                 Today I build with React 18 and TypeScript, but the craft hasn't
@@ -77,11 +77,11 @@ export default function About() {
               </p>
               <p
                 style={{
-                  fontFamily: 'DM Sans, sans-serif',
+                  fontFamily: 'Montserrat, sans-serif',
                   fontWeight: 300,
-                  fontSize: '1rem',
+                  fontSize: '0.95rem',
                   color: 'var(--text-secondary)',
-                  lineHeight: 1.85,
+                  lineHeight: 1.9,
                 }}
               >
                 I approach every client-facing product as if it were a flagship —

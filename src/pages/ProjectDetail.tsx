@@ -32,8 +32,11 @@ export default function ProjectDetail() {
             background: 'none',
             border: '1px solid var(--gold)',
             color: 'var(--gold)',
-            fontFamily: 'DM Sans, sans-serif',
-            fontSize: '0.85rem',
+            fontFamily: 'Montserrat, sans-serif',
+            fontWeight: 400,
+            fontSize: '0.75rem',
+            letterSpacing: '0.12em',
+            textTransform: 'uppercase',
             padding: '0.75rem 1.75rem',
             cursor: 'none',
           }}
@@ -68,17 +71,19 @@ export default function ProjectDetail() {
               background: 'none',
               border: 'none',
               color: 'var(--gold)',
-              fontFamily: 'DM Sans, sans-serif',
-              fontSize: '0.85rem',
+              fontFamily: 'Montserrat, sans-serif',
+              fontWeight: 400,
+              fontSize: '0.75rem',
+              letterSpacing: '0.12em',
+              textTransform: 'uppercase',
               cursor: 'none',
-              letterSpacing: '0.05em',
-              transition: 'opacity 0.2s ease',
+              transition: 'color 0.2s ease',
               padding: 0,
             }}
-            onMouseEnter={e => (e.currentTarget.style.opacity = '0.7')}
-            onMouseLeave={e => (e.currentTarget.style.opacity = '1')}
+            onMouseEnter={e => (e.currentTarget.style.color = 'var(--platinum)')}
+            onMouseLeave={e => (e.currentTarget.style.color = 'var(--gold)')}
           >
-            <ArrowLeft size={14} />
+            <ArrowLeft size={13} />
             Back to Projects
           </button>
 
@@ -112,10 +117,11 @@ export default function ProjectDetail() {
           </h1>
           <p
             style={{
-              fontFamily: 'DM Sans, sans-serif',
+              fontFamily: 'Montserrat, sans-serif',
               fontWeight: 300,
-              fontSize: '1.1rem',
+              fontSize: '1rem',
               color: 'var(--text-secondary)',
+              letterSpacing: '0.02em',
               marginBottom: '1.5rem',
             }}
           >
@@ -153,11 +159,11 @@ export default function ProjectDetail() {
               </div>
               <p
                 style={{
-                  fontFamily: 'DM Sans, sans-serif',
+                  fontFamily: 'Montserrat, sans-serif',
                   fontWeight: 300,
-                  fontSize: '1rem',
+                  fontSize: '0.95rem',
                   color: 'var(--text-secondary)',
-                  lineHeight: 1.85,
+                  lineHeight: 1.9,
                   marginBottom: '3rem',
                 }}
               >
@@ -205,11 +211,11 @@ export default function ProjectDetail() {
                     </span>
                     <span
                       style={{
-                        fontFamily: 'DM Sans, sans-serif',
+                        fontFamily: 'Montserrat, sans-serif',
                         fontWeight: 300,
-                        fontSize: '0.95rem',
+                        fontSize: '0.9rem',
                         color: 'var(--text-secondary)',
-                        lineHeight: 1.75,
+                        lineHeight: 1.8,
                       }}
                     >
                       {h}
@@ -283,7 +289,7 @@ export default function ProjectDetail() {
                   >
                     Category
                   </div>
-                  <div style={{ fontFamily: 'DM Sans, sans-serif', fontWeight: 300, fontSize: '0.9rem', color: 'var(--platinum)' }}>
+                  <div style={{ fontFamily: 'Montserrat, sans-serif', fontWeight: 300, fontSize: '0.88rem', color: 'var(--platinum)' }}>
                     {project.category}
                   </div>
                 </div>
@@ -301,15 +307,21 @@ export default function ProjectDetail() {
                       padding: '0.85rem',
                       border: '1px solid rgba(201,168,76,0.3)',
                       color: 'var(--gold)',
-                      fontFamily: 'DM Sans, sans-serif',
-                      fontSize: '0.82rem',
-                      letterSpacing: '0.05em',
+                      fontFamily: 'Montserrat, sans-serif',
+                      fontWeight: 400,
+                      fontSize: '0.75rem',
+                      letterSpacing: '0.1em',
+                      textTransform: 'uppercase',
                       textDecoration: 'none',
-                      transition: 'background 0.2s ease',
+                      transition: 'background 0.2s ease, color 0.2s ease',
                       cursor: 'none',
                     }}
-                    onMouseEnter={e => (e.currentTarget.style.background = 'rgba(201,168,76,0.08)')}
-                    onMouseLeave={e => (e.currentTarget.style.background = 'transparent')}
+                    onMouseEnter={e => {
+                      (e.currentTarget as HTMLElement).style.background = 'rgba(201,168,76,0.08)';
+                    }}
+                    onMouseLeave={e => {
+                      (e.currentTarget as HTMLElement).style.background = 'transparent';
+                    }}
                   >
                     <Github size={14} />
                     GitHub Repository
@@ -325,15 +337,21 @@ export default function ProjectDetail() {
                       padding: '0.85rem',
                       border: '1px solid rgba(201,168,76,0.3)',
                       color: 'var(--gold)',
-                      fontFamily: 'DM Sans, sans-serif',
-                      fontSize: '0.82rem',
-                      letterSpacing: '0.05em',
+                      fontFamily: 'Montserrat, sans-serif',
+                      fontWeight: 400,
+                      fontSize: '0.75rem',
+                      letterSpacing: '0.1em',
+                      textTransform: 'uppercase',
                       textDecoration: 'none',
-                      transition: 'background 0.2s ease',
+                      transition: 'background 0.2s ease, color 0.2s ease',
                       cursor: 'none',
                     }}
-                    onMouseEnter={e => (e.currentTarget.style.background = 'rgba(201,168,76,0.08)')}
-                    onMouseLeave={e => (e.currentTarget.style.background = 'transparent')}
+                    onMouseEnter={e => {
+                      (e.currentTarget as HTMLElement).style.background = 'rgba(201,168,76,0.08)';
+                    }}
+                    onMouseLeave={e => {
+                      (e.currentTarget as HTMLElement).style.background = 'transparent';
+                    }}
                   >
                     <ExternalLink size={14} />
                     Live Demo
