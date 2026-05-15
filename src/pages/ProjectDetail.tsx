@@ -59,7 +59,7 @@ export default function ProjectDetail() {
         paddingTop: '6rem',
       }}
     >
-      <div style={{ maxWidth: '1280px', margin: '0 auto', padding: '0 2rem' }}>
+      <div style={{ maxWidth: '1280px', margin: '0 auto', padding: '0 clamp(1rem, 5vw, 2rem)' }}>
         {/* Top bar */}
         <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: '4rem' }}>
           <button
@@ -136,10 +136,10 @@ export default function ProjectDetail() {
         <div
           style={{
             display: 'grid',
-            gridTemplateColumns: 'repeat(auto-fit, minmax(300px, 1fr))',
-            gap: '5rem',
+            gridTemplateColumns: 'repeat(auto-fit, minmax(min(300px, 100%), 1fr))',
+            gap: 'clamp(2rem, 6vw, 5rem)',
             alignItems: 'start',
-            paddingBottom: '8rem',
+            paddingBottom: 'clamp(4rem, 10vw, 8rem)',
           }}
         >
           {/* Left: overview + highlights (65%) */}

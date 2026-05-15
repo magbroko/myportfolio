@@ -26,7 +26,7 @@ export default function Contact() {
       id="contact"
       style={{
         backgroundColor: 'var(--bg-secondary)',
-        padding: '8rem 2rem',
+        padding: 'clamp(4rem, 10vw, 8rem) clamp(1rem, 5vw, 2rem)',
       }}
     >
       <div style={{ maxWidth: '1280px', margin: '0 auto' }}>
@@ -81,10 +81,10 @@ export default function Contact() {
         <FadeInView delay={0.15}>
           <div
             style={{
-              display: 'flex',
-              flexWrap: 'wrap',
-              gap: '3rem',
-              marginBottom: '5rem',
+            display: 'flex',
+            flexWrap: 'wrap',
+            gap: 'clamp(1.5rem, 4vw, 3rem)',
+            marginBottom: '5rem',
             }}
           >
             {contactLinks.map(({ icon: Icon, label, value, href }) => (

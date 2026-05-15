@@ -245,3 +245,79 @@ body::before {
   outline: 2px solid var(--gold);
   outline-offset: 3px;
 }
+
+/* ─────────────────────────────────────────────────────────
+   Responsive additions — 320px → 1440px+
+   Preserves dark luxury aesthetic; no colour/font changes.
+   ───────────────────────────────────────────────────────── */
+
+/* Touch/pointer devices: restore native cursor & hide custom dot */
+@media (hover: none) and (pointer: coarse) {
+  body { cursor: auto; }
+  .cursor,
+  .cursor-ring { display: none; }
+}
+
+/* Primary CTA — 44 × 44 px minimum tap target */
+.btn-ghost {
+  min-height: 44px;
+}
+
+/* Nav icon buttons — 44 × 44 px tap target */
+.nav-hamburger,
+.nav-close {
+  min-width: 44px;
+  min-height: 44px;
+  display: flex !important;
+  align-items: center;
+  justify-content: center;
+  padding: 0;
+}
+
+/* Hero CTA row — flex container managed by CSS so breakpoints can override */
+.hero-cta {
+  display: flex;
+  align-items: center;
+  gap: 2rem;
+  flex-wrap: wrap;
+}
+
+/* Portfolio sidebar label — visible by default; hidden below 480 px */
+.hero-sidebar {
+  display: block;
+}
+
+/* ── md: 768 px ── */
+@media (max-width: 768px) {
+  .gold-divider {
+    margin: 3.5rem 0;
+  }
+}
+
+/* ── sm: 480 px ── */
+@media (max-width: 480px) {
+  /* Hide decorative vertical sidebar text */
+  .hero-sidebar {
+    display: none !important;
+  }
+
+  /* Stack CTA row vertically; stretch btn-ghost to full width */
+  .hero-cta {
+    flex-direction: column;
+    align-items: stretch;
+    gap: 1.25rem;
+  }
+
+  .hero-cta .btn-ghost {
+    width: 100%;
+    justify-content: center;
+  }
+
+  .hero-cta .hero-text-btn {
+    justify-content: center;
+  }
+
+  .gold-divider {
+    margin: 2.5rem 0;
+  }
+}

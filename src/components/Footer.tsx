@@ -4,7 +4,7 @@ export default function Footer() {
       style={{
         backgroundColor: 'var(--bg-primary)',
         borderTop: '1px solid var(--divider)',
-        padding: '2rem',
+        padding: 'clamp(1rem, 4vw, 2rem)',
       }}
     >
       <div

@@ -14,7 +14,7 @@ export default function About() {
       id="about"
       style={{
         backgroundColor: 'var(--bg-primary)',
-        padding: '8rem 2rem',
+        padding: 'clamp(4rem, 10vw, 8rem) clamp(1rem, 5vw, 2rem)',
       }}
     >
       <div style={{ maxWidth: '1280px', margin: '0 auto' }}>
@@ -37,10 +37,10 @@ export default function About() {
 
         <div
           style={{
-            display: 'grid',
-            gridTemplateColumns: 'repeat(auto-fit, minmax(300px, 1fr))',
-            gap: '5rem',
-            alignItems: 'start',
+          display: 'grid',
+          gridTemplateColumns: 'repeat(auto-fit, minmax(min(300px, 100%), 1fr))',
+          gap: 'clamp(2rem, 6vw, 5rem)',
+          alignItems: 'start',
           }}
         >
           {/* Left: paragraphs */}

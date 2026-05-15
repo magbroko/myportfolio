@@ -228,8 +228,8 @@ export default function Hero() {
           position: 'absolute',
           top: '20%',
           left: '60%',
-          width: '600px',
-          height: '600px',
+          width: 'clamp(280px, 55vw, 600px)',
+          height: 'clamp(280px, 55vw, 600px)',
           borderRadius: '50%',
           background: 'radial-gradient(circle, rgba(201,168,76,0.06) 0%, transparent 70%)',
           pointerEvents: 'none',
@@ -241,8 +241,8 @@ export default function Hero() {
           position: 'absolute',
           bottom: '10%',
           left: '5%',
-          width: '400px',
-          height: '400px',
+          width: 'clamp(180px, 38vw, 400px)',
+          height: 'clamp(180px, 38vw, 400px)',
           borderRadius: '50%',
           background: 'radial-gradient(circle, rgba(0,212,170,0.04) 0%, transparent 70%)',
           pointerEvents: 'none',
@@ -271,11 +271,12 @@ export default function Hero() {
         Frontend Developer — React · TypeScript · UI
       </motion.div>
 
-      {/* Bottom-right vertical text */}
+      {/* Bottom-right vertical text — hidden below 480 px via .hero-sidebar */}
       <motion.div
         initial={{ opacity: 0 }}
         animate={{ opacity: 1 }}
         transition={{ delay: 1.2, duration: 0.8 }}
+        className="hero-sidebar"
         style={{
           position: 'absolute',
           bottom: '3rem',
@@ -301,7 +302,7 @@ export default function Hero() {
           display: 'flex',
           alignItems: 'center',
           minHeight: '100vh',
-          padding: '0 2rem',
+          padding: '0 clamp(1rem, 5vw, 4rem)',
           maxWidth: '1280px',
           margin: '0 auto',
           width: '100%',
@@ -323,7 +324,7 @@ export default function Hero() {
             <div
               style={{
                 fontFamily: 'Cormorant Garamond, serif',
-                fontSize: 'clamp(3.5rem, 7vw, 7rem)',
+                fontSize: 'clamp(2.5rem, 10vw, 7rem)',
                 fontWeight: 300,
                 color: 'var(--platinum)',
                 letterSpacing: '-0.02em',
@@ -339,7 +340,7 @@ export default function Hero() {
             <div
               style={{
                 fontFamily: 'Cormorant Garamond, serif',
-                fontSize: 'clamp(3.5rem, 7vw, 7rem)',
+                fontSize: 'clamp(2.5rem, 10vw, 7rem)',
                 fontWeight: 300,
                 fontStyle: 'italic',
                 color: 'var(--gold)',
@@ -382,7 +383,7 @@ export default function Hero() {
           {/* CTA buttons */}
           <motion.div
             variants={fadeUp}
-            style={{ display: 'flex', alignItems: 'center', gap: '2rem', flexWrap: 'wrap' }}
+            className="hero-cta"
           >
             <button onClick={scrollToProjects} className="btn-ghost">
               View Work

@@ -30,7 +30,7 @@ export default function Projects() {
       id="projects"
       style={{
         backgroundColor: 'var(--bg-secondary)',
-        padding: '8rem 2rem',
+        padding: 'clamp(4rem, 10vw, 8rem) clamp(1rem, 5vw, 2rem)',
       }}
     >
       <div style={{ maxWidth: '1280px', margin: '0 auto' }}>

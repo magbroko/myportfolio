@@ -44,7 +44,7 @@ export default function TechStack() {
       }}
     >
       {/* Header */}
-      <div style={{ maxWidth: '1280px', margin: '0 auto', padding: '0 2rem', marginBottom: '4rem' }}>
+      <div style={{ maxWidth: '1280px', margin: '0 auto', padding: '0 clamp(1rem, 5vw, 2rem)', marginBottom: '4rem' }}>
         <FadeInView>
           <span className="section-number">03 — TECH STACK</span>
           <h2
@@ -122,11 +122,11 @@ export default function TechStack() {
       </div>
 
       {/* Capabilities grid */}
-      <div style={{ maxWidth: '1280px', margin: '0 auto', padding: '0 2rem' }}>
+      <div style={{ maxWidth: '1280px', margin: '0 auto', padding: '0 clamp(1rem, 5vw, 2rem)' }}>
         <div
           style={{
             display: 'grid',
-            gridTemplateColumns: 'repeat(auto-fit, minmax(260px, 1fr))',
+            gridTemplateColumns: 'repeat(auto-fit, minmax(min(260px, 100%), 1fr))',
             gap: '2rem',
           }}
         >
@@ -175,7 +175,7 @@ export default function TechStack() {
         </div>
       </div>
 
-      <div style={{ maxWidth: '1280px', margin: '0 auto', padding: '0 2rem' }}>
+      <div style={{ maxWidth: '1280px', margin: '0 auto', padding: '0 clamp(1rem, 5vw, 2rem)' }}>
         <div className="gold-divider" style={{ marginTop: '6rem', marginBottom: 0 }} />
       </div>
     </section>
